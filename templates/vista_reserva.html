@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Instalaciones{% endblock %}
+
+{% block content %}
+
+<div class="container grid text-center espacio-container">
+    <div class="row align-items-start">  
+        <div class="col-lg-7">
+          <div class="container borde position-relative overflow-hidden ">
+            <img class=" special-img" src="img/Cancha_sintetica.jpg" style="width:80%" alt="Escenario">
+          </div>
+        </div>
+        <!-- <hr class="vertical"> -->
+        <div class="col-lg-5">
+            <div class="col">
+                PRECIO
+                <h2> 20$ x HORA</h2>
+            </div>
+            <hr>
+            <div class="col">
+                NOMBRE
+                <h1> Cancha de Futbol de 100 x 40 </h1>
+            </div>
+            <hr>
+            <div class="col">
+                <h2> Incluye:</h2>
+                <ul type="cicle">
+                    <li>Balon </li> 
+                    <li>Chalecos </li> 
+                    <li>Uso de duchas</li> 
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    <hr>
+    
+    <div class="row align-items-start">  
+        <div class="col">
+          <h3> DESCRIPCION </h3>
+          <p> Es una chancha bonita </p>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row align-items-start">  
+        <div class="col">
+          <h3>CARACTERISTICAS</h3>
+          <table class="table table-light table-striped table-striped-columns">
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <hr>
+    <hr class="line ">
+
+    <div class="row align-items-start">  
+        <div class="col">
+          <h3>FORMULARIO DE RESERVA </h3>
+          <form class="row g-3">
+            <div class="col-md-12">
+              <label for="inputEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com">
+            </div>
+            <div class="col-6">
+              <label for="inputNombre" class="form-label">Nombres</label>
+              <input type="text" class="form-control" id="inputNombre" placeholder="">
+            </div>
+            <div class="col-6">
+              <label for="inputApellido" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="inputApellido" placeholder="">
+            </div>
+            <div class="col-md-4">
+                <label for="inputFecha" class="form-label">Fecha a Reservar</label>
+                <input type="date" class="form-control" id="inputFecha">
+            </div>
+            <div class="col-md-4">
+                <label for="inputHorainicio" class="form-label">Hora Inicio</label>
+                <input type="time" class="form-control" id="inputHorainicio">
+            </div>
+            <div class="col-md-4">
+                <label for="inputHorafin" class="form-label">Hora Fin</label>
+                <input type="time" class="form-control" id="inputHorafin">
+            </div>
+
+            
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Pagar/Reservar</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
