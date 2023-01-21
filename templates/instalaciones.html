@@ -48,21 +48,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
           <div class="modal-header p-5 pb-4 border-bottom-0">
-
+            <!-- <h5 class="modal-title">Modal title</h5> -->
             <h2 class="fw-bold mb-0 ">Sign up for free</h2>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
     
           <div class="modal-body">
-            <form action="." method="post" class="row">
+            <form action="" method="post" class="row">
                 <div class="form-group">
-                  <label for="floatingInput">Email address</label>
-                  <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                    <label class="mb-1">Ingresa tu Usuario:</label>
                 </div>
-
                 <div class="form-group mb-1">
-                  <label for="floatingPassword">Password</label>
-                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
+                    <label for="">Ingresa tu Contraseña:</label>
                 </div>
                 <div class="modal-footer form-group">
                     <button type="button" class="btn btn-secondary"
@@ -75,12 +72,59 @@
       </div>
   </div>
 
-  <div class="container-nav" >
-    <div class="presentacion">
-      <p class="bienvenida">COMPLEJO DEPORTIVO</p>
-      <h2 class="presentacion_h2">XYZ</h2>
+  <section id="special">
+    <div class="container">
+        <div class="title text-center">
+            <h2 class="position-relative d-inline-block">Instalaciones</h2>
+        </div>
+
+        <div class="special-list row g-0">
+            <div class="col-md-6 col-lg-6 col-xl-6 p-2">
+                <div class="special-img position-relative overflow-hidden">
+                    <img src="{% static 'img/img1.jpg' %}" class="ajustarimg" alt="Imagen 4">
+                    
+                </div>
+                <div class="text-center">
+                    <p class="text-capitalize mt-3 mb-1">Cancha sintetica 1</p>
+                    <a href="#" class="btn btn-primary mt-3">Ver</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6 p-2">
+                <div class="special-img position-relative overflow-hidden">
+                    <img src="{% static 'img/img1.jpg' %}" class="ajustarimg" alt="Imagen 4">
+                    
+                </div>
+                <div class="text-center">
+                    <p class="text-capitalize mt-3 mb-1">Cancha sintetica 2</p>
+                    <a href="#" class="btn btn-primary mt-3">Ver</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6 p-2">
+                <div class="special-img position-relative overflow-hidden">
+                    <img src="{% static 'img/img1.jpg' %}" class="ajustarimg" alt="Imagen 5">
+                    
+                </div>
+                <div class="text-center">
+                    <p class="text-capitalize mt-3 mb-1">Cancha sintetica 3</p>
+                    <a href="#" class="btn btn-primary mt-3">Ver</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-xl-6 p-2">
+                <div class="special-img position-relative overflow-hidden">
+                    <img src="{% static 'img/img1.jpg' %}" class="ajustarimg" alt="Imagen 6">
+                    
+                </div>
+                <div class="text-center">
+                    <p class="text-capitalize mt-3 mb-1">Cancha sintetica 4</p>
+                    <a href="#" class="btn btn-primary mt-3">Ver</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</section>
 
   
 
