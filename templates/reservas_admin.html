@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="style_base.css">
+    <title>Reservas</title>
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div id="menu-iz">
+            <div class="sidebar-heading text-center py-4 text-white fs-4 fw-bold color-encabezado">
+                <i class="fa-solid fa-paw me-2"></i>COMPLEJO
+            </div>
+            <div class="list-group">
+                
+
+                <a href="/reserva" class="list-group-item   second-text fw-bold">
+                    <i class="fa-solid fa-calendar-day me-2"></i>Reservas
+                </a>
+
+
+                <a href="/instalacion" class="list-group-item  second-text fw-bold">
+                    <i class="fas fa-gift me-2"></i>Instalaciones
+                </a>
+
+
+                <a href="/empleado" class="list-group-item   second-text fw-bold">
+                    <i class="fa-solid fa-users me-2"></i>Empleados
+                </a>
+
+                <a href="/logout" class="list-group-item  second-text fw-bold"><i
+                        class="fas fa-power-off me-2"></i>Logout</a>
+
+            </div>
+        </div>
+        <!-- /#menu-iz -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg menu-s py-3 px-4 color-encabezado">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left  fs-4 me-3" id="menu-toggle"></i>
+                    <h2 class=" m-0">Reservas</h2>
+                </div>
+
+                <div class="dropdown ms-auto color-encabezado">
+                    <button class="btn  color-encabezado dropdown-toggle " type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fas fa-user me-2"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-3 pt-3">
+                <div class="card card-bg">
+                    <div class="card mb-4">
+ 
+
+                        <div class="card-body color-card1">
+                            <nav class="navbar navbar-color1">
+                                <div class="container-fluid">
+
+                                    <!-- Boton modal de cliente-->
+                                    <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" >
+                                        <i class="fa fa-user-circle"></i> Nueva Reserva
+                                    </button>
+
+                                    <!-- Modal de Crear cliente -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Reserva</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <form action="/registrarReserva/" method="post" class="row" > 
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Nombre</label>
+                                                            <input type="text" name="nombre" id="nombre" class="form-control"  required>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Apellido</label>
+                                                            <input type="text" name="apellido" id="apellido" class="form-control"  required>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Ci/Ruc</label>
+                                                            <input type="text" name="ci" id="ci"class="form-control"   maxlength="10" minlength="10"  required> 
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Telefono</label>
+                                                            <input type="text" name="telefono" id="telefono" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Dirección</label>
+                                                            <input type="text" name="direccion" id="direccion" class="form-control" required>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label for="">Correo</label>
+                                                            <input type="email"  name="correo" id="correo"class="form-control" required>
+                                                        </div>
+                                                        <br>
+                                                        
+                                                        <div class="modal-footer form-group">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-primary" >Guardar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form class="d-flex" role="search" method="get">
+                                        <input class="form-control me-2" type="search" placeholder="Buscar...."
+                                            aria-label="Search" name="buscarres" value="{{request.GET.buscarres}}">
+                                        <button class="btn btn-outline-secondary" type="submit" id="buscador"><i
+                                                class="fas fa-search"></i></button>
+                                    </form>
+
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="card mt-1">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <!-- Tabla de reserva -->
+                                        <table class='table table-bordered table-stripe table-hover'>
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Apellido</th>
+                                                    <th>CI/RUC</th>
+                                                    <th>Telefono</th>
+                                                    <th>Dirección</th>
+                                                    <th>Correo</th>
+                                                    <th> Estado</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                <tr class='text-center'>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style="color: red"><i class="fa fa-window-close"  aria-hidden="true"></i></td>
+                                                    <td>
+                                                        <!-- editar Cliente -->
+                                                        <a href="/edicionReserva/{{c.cedula}}"><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditar">
+                                                            <i class="fa-solid fa-pen"></i></button></a>
+                                                        <!-- eliminar Cliente -->
+                                                        <a href="/eliminarReserva/{{c.cedula}}" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- Fin Tabla de Reserva -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class=" mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="base.js"></script>
+    <script src="https://kit.fontawesome.com/26084d939f.js" crossorigin="anonymous"></script>
+   
+
+</body>
+
+</html>
