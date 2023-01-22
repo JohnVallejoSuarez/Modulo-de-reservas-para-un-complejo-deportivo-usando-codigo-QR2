@@ -22,21 +22,21 @@
             <div class="list-group">
                 
 
-                <a href="/reserva" class="list-group-item   second-text fw-bold">
+                <a href="#" class="list-group-item   second-text fw-bold">
                     <i class="fa-solid fa-calendar-day me-2"></i>Reservas
                 </a>
 
 
-                <a href="/instalacion" class="list-group-item  second-text fw-bold">
+                <a href="#" class="list-group-item  second-text fw-bold">
                     <i class="fas fa-gift me-2"></i>Instalaciones
                 </a>
 
 
-                <a href="/empleado" class="list-group-item   second-text fw-bold">
+                <a href="#" class="list-group-item   second-text fw-bold">
                     <i class="fa-solid fa-users me-2"></i>Empleados
                 </a>
 
-                <a href="/logout" class="list-group-item  second-text fw-bold"><i
+                <a href="#" class="list-group-item  second-text fw-bold"><i
                         class="fas fa-power-off me-2"></i>Logout</a>
 
             </div>
@@ -59,7 +59,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
                     </ul>
                 </div>
             </nav>
@@ -73,13 +73,13 @@
                             <nav class="navbar navbar-color1">
                                 <div class="container-fluid">
 
-                                    <!-- Boton modal de cliente-->
+
                                     <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal" >
                                         <i class="fa fa-user-circle"></i> Nueva Reserva
                                     </button>
 
-                                    <!-- Modal de Crear cliente -->
+
                                     <div class="modal fade" id="exampleModal" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
@@ -138,7 +138,7 @@
 
                                     <form class="d-flex" role="search" method="get">
                                         <input class="form-control me-2" type="search" placeholder="Buscar...."
-                                            aria-label="Search" name="buscarres" value="{{request.GET.buscarres}}">
+                                            aria-label="Search" name="buscarres">
                                         <button class="btn btn-outline-secondary" type="submit" id="buscador"><i
                                                 class="fas fa-search"></i></button>
                                     </form>
@@ -180,12 +180,11 @@
                                                     <td></td>
                                                     <td style="color: red"><i class="fa fa-window-close"  aria-hidden="true"></i></td>
                                                     <td>
-                                                        <!-- editar Cliente -->
-                                                        <a href="/edicionReserva/{{c.cedula}}"><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
+
+                                                        <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
                                                             data-bs-target="#modalEditar">
                                                             <i class="fa-solid fa-pen"></i></button></a>
-                                                        <!-- eliminar Cliente -->
-                                                        <a href="/eliminarReserva/{{c.cedula}}" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
+                                                        <a href="" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
