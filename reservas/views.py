@@ -6,3 +6,6 @@ def home(request):
 
 def instalaciones(request):
     return render(request, 'instalaciones.html')
+
+def detalleInstalacion(request):
+    return render(request, 'vista_reserva.html')
