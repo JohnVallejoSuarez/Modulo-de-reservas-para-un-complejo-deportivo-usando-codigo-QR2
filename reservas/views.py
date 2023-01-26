@@ -9,3 +9,9 @@ def instalaciones(request):
 
 def detalleInstalacion(request):
     return render(request, 'vista_reserva.html')
+
+def adminInstalaciones(request):
+    return render(request, 'adminInstalaciones.html')
+
+def adminReservas(request):
+    return render(request, 'adminReservas.html')
