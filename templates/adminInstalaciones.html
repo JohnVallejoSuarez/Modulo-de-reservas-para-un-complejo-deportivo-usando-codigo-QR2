@@ -21,14 +21,14 @@
                                         </svg>
                                     </button>
 
-                                    <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal1" >
+                                    <a href="/adminDisiplinas"><button type="button" class="btn btn-primary separacion" data-bs-toggle=""
+                                        data-bs-target="" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="28" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                         </svg>
                                         Nueva Categoria
-                                    </button>
+                                    </button></a>
 
                                     <form class="d-flex" role="search" method="get">
                                         <input class="form-control me-2" type="search" placeholder="Buscar...."
@@ -57,10 +57,10 @@
 
                                                         <div class="form-group col-md-6">
                                                             <label for="">Disiplina</label>
-                                                            <select type="text" class="form-select" name="pmarca" id="pmarca" required>
+                                                            <select type="text" class="form-select" name="disiplina" id="disiplina" required>
                                                                 <option selected disabled>---------------</option>
-                                                                {% for m in marcas %}
-                                                                <option value="{{ m.id }}" >{{ m.nombre }}</option>
+                                                                {% for d in disiplina %}
+                                                                <option value="{{ d.id }}" >{{ d.nombre }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -72,50 +72,50 @@
 
                                                         <div class="form-group col-md-6">
                                                             <label for="">Capacidad </label>   
-                                                                <input type="text" name="telefono" id="telefono" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
+                                                                <input type="text" name="capacidad" id="capacidad" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
 
                                                         </div>
 
                                                         <div class="form-group col-md-12">
                                                             <label for="formFile" class="form-label" style="margin-top: -5px;">Imagen</label>
                                                         
-                                                            <input class="form-control" type="file" name='profoto' id='profoto' required>
+                                                            <input class="form-control" type="file" name='imagen' id='imagen' required>
                                                         </div>
 
                                                         <div class="form-group col-md-12">
-                                                            <label for="">Descripcion</label>
-                                                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                                            <label for="descripcion">Descripcion</label>
+                                                            <textarea class="form-control" placeholder="" id="descripcion" style="height: 100px"></textarea>
                                                         </div>
 
                                                         <div class="form-group col-md-12">
                                                             <label for="">Indumentaria</label>
                                                             <div class="form-floating">
-                                                                <textarea type="list" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                                <label for="floatingTextarea2">Cada indumentaria que incluya separelo con una coma.</label>
+                                                                <textarea type="list" class="form-control" placeholder="" id="indumentaria" style="height: 100px"></textarea>
+                                                                <label for="indumentaria">Cada indumentaria que incluya separelo con una coma.</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group col-md-12">
                                                             <label for="">Recomendaciones</label>
                                                             <div class="form-floating">
-                                                                <textarea type="list" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                                <label for="floatingTextarea2">Cada recomendacion que incluya separelo con una coma.</label>
+                                                                <textarea type="list" class="form-control" placeholder="" id="recomendaciones" style="height: 100px"></textarea>
+                                                                <label for="recomendaciones">Cada recomendacion que incluya separelo con una coma.</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group col-md-12">
                                                             <label for="">Restriciones</label>
                                                             <div class="form-floating">
-                                                                <textarea type="list" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                                <label for="floatingTextarea2">Cada restriccion que incluya separelo con una coma.</label>
+                                                                <textarea type="list" class="form-control" placeholder="" id="restricciones" style="height: 100px"></textarea>
+                                                                <label for="restricciones">Cada restriccion que incluya separelo con una coma.</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group col-md-12 " >
                                                             <label for="">Equipo Incluido</label>
                                                             <div class="form-floating">
-                                                                <textarea type="list" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                                                <label for="floatingTextarea2">Cada equipo que incluya separelo con una coma.</label>
+                                                                <textarea type="list" class="form-control" placeholder="" id="equipo_incluido" style="height: 100px"></textarea>
+                                                                <label for="equipo_incluido">Cada equipo que incluya separelo con una coma.</label>
                                                             </div>
                                                             
                                                         </div>

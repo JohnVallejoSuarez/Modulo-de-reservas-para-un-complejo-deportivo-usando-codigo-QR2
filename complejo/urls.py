@@ -22,10 +22,19 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('instalaciones/', views.instalaciones, name='instalaciones'),
     path('detalleInstalacion/', views.detalleInstalacion, name='detalleInstalacion'),
+
+    path('adminDisiplinas/', views.adminDisiplinas, name='adminDisiplinas'),
+    path('registroDisiplina/', views.registroDisiplina, name='registroDisiplina'), 
+    path('edicionDisiplinas/', views.edicionDisiplinas, name='edicionDisiplinas'),
+    path('editaDisiplina/<id>', views.editaDisiplina, name='editaDisiplina'),
+    path('eliminacionDisiplina/<id>', views.eliminacionDisiplina, name='eliminacionDisiplina'),
+     
+
     path('adminInstalaciones/', views.adminInstalaciones, name='adminInstalaciones'),
-    path('adminReservas/', views.adminReservas, name='adminReservas'),
-    path('edicionCategoria/', views.edicionCategoria, name='edicionCategoria'),
     path('edicionInstalaciones/', views.edicionInstalaciones, name='edicionInstalaciones'),
-    path('adminCategorias/', views.adminCategorias, name='adminCategorias'),
+   
+    path('adminReservas/', views.adminReservas, name='adminReservas'),
+    
+   
 
 ]
