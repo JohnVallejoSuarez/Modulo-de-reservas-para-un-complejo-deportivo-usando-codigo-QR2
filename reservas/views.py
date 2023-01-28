@@ -15,3 +15,12 @@ def adminInstalaciones(request):
 
 def adminReservas(request):
     return render(request, 'adminReservas.html')
+
+def edicionInstalaciones(request):
+    return render(request, 'vista_reserva.html')
+
+def edicionCategoria(request):
+    return render(request, 'adminInstalaciones.html')
+
+def adminCategorias(request):
+    return render(request, 'adminReservas.html')

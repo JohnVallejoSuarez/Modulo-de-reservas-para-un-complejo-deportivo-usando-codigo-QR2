@@ -24,4 +24,8 @@ urlpatterns = [
     path('detalleInstalacion/', views.detalleInstalacion, name='detalleInstalacion'),
     path('adminInstalaciones/', views.adminInstalaciones, name='adminInstalaciones'),
     path('adminReservas/', views.adminReservas, name='adminReservas'),
+    path('edicionCategoria/', views.edicionCategoria, name='edicionCategoria'),
+    path('edicionInstalaciones/', views.edicionInstalaciones, name='edicionInstalaciones'),
+    path('adminCategorias/', views.adminCategorias, name='adminCategorias'),
+
 ]
