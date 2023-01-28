@@ -24,7 +24,7 @@ def adminDisiplinas(request):
 
     if busqueda:
         listaDisiplinas=Disiplina.objects.filter(
-            Q(nombre__icontains=busqueda) 
+            nombre__icontains=busqueda 
         ).distinct()
     return render(request, 'adminDisiplinas.html',{'disiplinas': listaDisiplinas})
 
@@ -41,7 +41,15 @@ def editaDisiplina(request,id):
     return render(request, 'edicionDisiplinas.html', {'edicionDisiplina': ediciondisiplina})
 
 def edicionDisiplinas(request):
-    return render(request, 'edicionDisiplinas.html')
+    id=request.POST['disiplinaid']
+    disiplina = Disiplina.objects.get(id=id)
+
+    if request.POST:
+        disiplina=Disiplina()
+        disiplina.id = request.POST.get('disiplinaid')
+        disiplina.nombre = request.POST.get('disiplinanombre')
+        disiplina.save()
+    return redirect('/adminDisiplinas')
 
 def eliminacionDisiplina(request,id):
     disiplina=Disiplina.objects.get(id=id)
