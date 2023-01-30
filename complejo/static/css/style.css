@@ -73,14 +73,13 @@
   /* pagina del admin */
 
   .second-text {
-    color: #bbbec5;
-    background-color:  #313a46 ;
+    color: #ffffff;
   }
 
   
   #wrapper {
     overflow-x: hidden;
-    background-color: #f1f1f1;
+    background-color: #e6e6e6;
   }
   
   #menu-iz {
@@ -90,11 +89,14 @@
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
     transition: margin 0.25s ease-out;
-    background: linear-gradient(135deg, #313a46 0, #313a46 60%);
+    background-color: #3949ab;
     /* box-shadow: 0 0 35px 0 rgba(49, 57, 66, 0.5); */
   
   }
-  
+  .color-1{
+    background-color: #3949ab;
+  }
+  /* 0fb294 */
   #menu-iz  .sidebar-heading {
     padding: 0.875rem 1.25rem;
     font-size: 1.2rem;
@@ -120,28 +122,25 @@
   
   .menu-s {
     background-color: #ffffff;
-    box-shadow: 0 0 35px 0 rgb(61 69 78 / 15%);
   }
 
   .second-text:hover {
-    color: #ffffff;
-    background-color: #64c27b;
-    border-radius: 0%;
+    border-left: 3px solid #bdbdbd;
   }
   
   .list-group-item {
     border:0px;
     padding: 20px 30px;
   }
-  
-  .color-encabezado{
-    background-color: #64c27b;
-    border:#64c27b;
-  }
 
-  .navbar-color1{
-    background-color:  #d0fdd7;
+  .list-group-item:hover {
+    color: #bdbdbd;
   }
+  
+  
+ 
+
+ 
   
   @media (min-width: 768px) {
     #menu-iz {

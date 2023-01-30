@@ -18,27 +18,27 @@
         {% block sidebar %}
         <!-- Sidebar -->
         <div id="menu-iz">
-            <div class="sidebar-heading text-center py-4 text-white fs-4 fw-bold color-encabezado">
+            <div class="sidebar-heading text-center text-white fs-4 fw-bold ">
                 COMPLEJO
             </div>
-            <div class="list-group">
+            <div class="list-group ">
                 
 
-                <a href="#" class="list-group-item   second-text fw-bold">
+                <a href="{% url 'adminReservas' %}" class="list-group-item   second-text fw-bold color-1">
                     <i class="fa-solid fa-calendar-day me-2"></i>Reservas
                 </a>
 
 
-                <a href="#" class="list-group-item  second-text fw-bold">
+                <a href="{% url 'adminInstalaciones' %}" class="list-group-item  second-text fw-bold color-1">
                     <i class="fas fa-gift me-2"></i>Instalaciones
                 </a>
 
 
-                <a href="#" class="list-group-item   second-text fw-bold">
+                <a href="#" class="list-group-item   second-text fw-bold color-1">
                     <i class="fa-solid fa-users me-2"></i>Empleados
                 </a>
 
-                <a href="#" class="list-group-item  second-text fw-bold"><i
+                <a href="{% url 'home' %}" class="list-group-item  second-text fw-bold color-1"><i
                         class="fas fa-power-off me-2"></i>Logout</a>
 
             </div>
@@ -49,14 +49,14 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             {% block navbar %}
-            <nav class="navbar navbar-expand-lg menu-s py-3 px-4 color-encabezado">
+            <nav class="navbar navbar-expand-lg menu-s py-3 px-4 ">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left  fs-4 me-3" id="menu-toggle"></i>
                     <h2 class=" m-0"></h2>
                 </div>
 
-                <div class="dropdown ms-auto color-encabezado">
-                    <button class="btn  color-encabezado dropdown-toggle " type="button" data-bs-toggle="dropdown"
+                <div class="dropdown ms-auto ">
+                    <button class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i class="fas fa-user me-2"></i>
                     </button>
@@ -71,25 +71,27 @@
 
             {% block content %}{% endblock %}
             
-                    {% block footer %}
-                    <footer class=" mt-auto">
-                        <div class="container-fluid px-4">
-                            <div class="d-flex align-items-center justify-content-between small">
-                                <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                                <div>
-                                    <a href="#">Privacy Policy</a>
-                                    &middot;
-                                    <a href="#">Terms &amp; Conditions</a>
-                                </div>
-                            </div>
+            {% block footer %}
+            <footer class=" mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">
+                            Copyright &copy; Your Website 2023
                         </div>
-                    </footer>
-                    {% endblock %}
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
+            </footer>
+            {% endblock %}
+            
         </div>
+
     </div>
+
 
     <script src="{% static 'javascript/base.js' %}"></script>
     <script src="https://kit.fontawesome.com/26084d939f.js" crossorigin="anonymous"></script>
