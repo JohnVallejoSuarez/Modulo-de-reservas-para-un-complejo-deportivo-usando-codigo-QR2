@@ -26,7 +26,7 @@ class Instalacion(models.Model):
         return self.nombre
 
 class Reserva(models.Model):
-    id_diciplina = models.ForeignKey(Disiplina, on_delete=models.CASCADE)
+    id_instalacion = models.ForeignKey(Instalacion, on_delete=models.CASCADE)
     nombres = models.CharField(max_length=30)
     apellidos = models.CharField(max_length=30)
     cedula = models.CharField(max_length=10)
@@ -36,6 +36,6 @@ class Reserva(models.Model):
     fecha_reservada = models.DateField()
     codigo_qr = models.CharField(max_length=255, unique=True)
     pago = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
-    hora_inicio = models.DateTimeField()
-    hora_fin =models.DateTimeField()
+    hora_inicio = models.TimeField()
+    hora_fin =models.TimeField()
     estado = models.BooleanField(default=True)
