@@ -93,6 +93,12 @@ def registroInstalacion(request):
     )
     return redirect('/adminInstalaciones')
 
+
+def verInstalacion(request,id):
+    verinstalacion = Instalacion.objects.get(id=id)
+    listaDisiplinas = Disiplina.objects.all()
+    return render(request, 'verInstalaciones.html', {'verInstalacion': verinstalacion,'disiplinas': listaDisiplinas})
+
 def editaInstalacion(request,id):
     edicioninstalacion = Instalacion.objects.get(id=id)
     return render(request, 'edicionInstalaciones.html', {'edicionInstalacion': edicioninstalacion})
