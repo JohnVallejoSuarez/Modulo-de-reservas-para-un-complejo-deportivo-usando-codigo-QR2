@@ -84,7 +84,7 @@
                                             </div>
 
                                             <div class="modal-body">
-                                                <form action="/registroInstalacion/{{verInstalacion.id}}" method="post" class="row" enctype="multipart/form-data" > {% csrf_token %}
+                                                <form action="/editaInstalacion/{{verInstalacion.id}}" method="post" class="row" enctype="multipart/form-data" > {% csrf_token %}
                                                     <div class="form-group col-md-6">
                                                         <label for="">Nombre</label>
                                                         <input type="text" name="nombre" id="nombre" class="form-control" value="{{verInstalacion.nombre}}" required>
@@ -117,7 +117,7 @@
 
                                                     <div class="form-group col-md-12">
                                                         <label for="formFile" class="form-label" style="margin-top: -5px;">Imagen</label>
-                                                        <input class="form-control" type="file" name='imagen' id='imagen' value="{{verInstalacion.imagen}}" placeholder={{verInstalacion.imagen}}  required>
+                                                        <input class="form-control" type="file" name='imagen' id='imagen' value="{{verInstalacion.imagen}}" placeholder={{verInstalacion.imagen}} >
                                                         <p>Imagen Actual:</p><img src="../media/{{verInstalacion.imagen}}" alt="prueva" style="width: 100px">
                                                     </div>
 

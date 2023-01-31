@@ -101,10 +101,48 @@ def verInstalacion(request,id):
 
 def editaInstalacion(request,id):
     edicioninstalacion = Instalacion.objects.get(id=id)
-    return render(request, 'edicionInstalaciones.html', {'edicionInstalacion': edicioninstalacion})
+    imagen=edicioninstalacion.imagen
+    if request.POST:
+        if request.POST.get('imagen')=='':
+            instalacion=Instalacion()
+            instalacion.id = edicioninstalacion.id
+            instalacion.nombre=request.POST.get('nombre')
+            
+            disiplina=Disiplina()
+            disiplina.id=request.POST.get('disiplina')
+            instalacion.id_diciplina=disiplina
 
-def edicionInstalaciones(request):
-    return render(request, '/adminInstalaciones')
+            instalacion.precio=request.POST.get('precio')
+            instalacion.capacidad=request.POST.get('capacidad')
+            instalacion.imagen=imagen
+            instalacion.descripcion=request.POST.get('descripcion')
+            instalacion.indumentaria=request.POST.get('indumentaria')
+            instalacion.recomendaciones=request.POST.get('recomendaciones')
+            instalacion.restriciones=request.POST.get('restricciones')
+            instalacion.equipo_incluido=request.POST.get('equipo_incluido')
+
+            instalacion.save()
+        else:
+            instalacion=Instalacion()
+            instalacion.id = edicioninstalacion.id
+            instalacion.nombre=request.POST.get('nombre')
+            
+            disiplina=Disiplina()
+            disiplina.id=request.POST.get('disiplina')
+            instalacion.id_diciplina=disiplina
+
+            instalacion.precio=request.POST.get('precio')
+            instalacion.capacidad=request.POST.get('capacidad')
+            instalacion.imagen=request.FILES.get('imagen')
+            instalacion.descripcion=request.POST.get('descripcion')
+            instalacion.indumentaria=request.POST.get('indumentaria')
+            instalacion.recomendaciones=request.POST.get('recomendaciones')
+            instalacion.restriciones=request.POST.get('restricciones')
+            instalacion.equipo_incluido=request.POST.get('equipo_incluido')
+
+            instalacion.save()
+
+    return redirect('/verInstalacion/'+str(instalacion.id))
 
 def eliminacionInstalacion(request,id):
     instalacion=Instalacion.objects.get(id=id)
