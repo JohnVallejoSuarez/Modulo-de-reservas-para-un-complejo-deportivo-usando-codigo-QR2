@@ -3,153 +3,179 @@
 {% block title %}Instalaciones{% endblock %}
 
 
-            {% block content %}
-            <div class="container-fluid px-3 pt-3">
-                <div class="card card-bg">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Reserva</h3>
-                        </div>
- 
-                        <div class="card-body">
-                            <nav class="navbar bg-light">
-                                <div class="container-fluid">
+{% block content %}
+    <div class="container-fluid px-3 pt-3">
+        <div class="card card-bg">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Reserva</h3>
+                </div>
 
-                                    <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" >
-                                        <i class="fa fa-user-circle"></i> Nueva Reserva
-                                    </button>
+                <div class="card-body">
+                    <nav class="navbar bg-light">
+                        <div class="container-fluid">
+
+                            <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" >
+                                <i class="fa fa-user-circle"></i> Nueva Reserva
+                            </button>
 
 
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Nueva Reserva</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Nueva Reserva</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form action="/registrarReserva/" method="post" class="row" >
+                                                <div class="form-group col-md-12">
+                                                    <label for="">Instalacion</label>
+                                                    <select type="text" class="form-select" name="instalacion" id="instalacion" required>
+                                                        <option selected disabled>---------------</option>
+                                                        {% for i in instalaciones %}
+                                                        {% if i.estado == True %}
+                                                        <option value="{{ i.id }}" >{{ i.nombre }}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div> 
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Nombre</label>
+                                                    <input type="text" name="nombre" id="nombre" class="form-control"  required>
                                                 </div>
 
-                                                <div class="modal-body">
-                                                    <form action="/registrarReserva/" method="post" class="row" > 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Nombre</label>
-                                                            <input type="text" name="nombre" id="nombre" class="form-control"  required>
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Apellido</label>
+                                                    <input type="text" name="apellido" id="apellido" class="form-control"  required>
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Apellido</label>
-                                                            <input type="text" name="apellido" id="apellido" class="form-control"  required>
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Ci/Ruc</label>
+                                                    <input type="text" name="ci" id="ci"class="form-control"   maxlength="10" minlength="10"  required> 
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Ci/Ruc</label>
-                                                            <input type="text" name="ci" id="ci"class="form-control"   maxlength="10" minlength="10"  required> 
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Telefono</label>
+                                                    <input type="text" name="telefono" id="telefono" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Telefono</label>
-                                                            <input type="text" name="telefono" id="telefono" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Correo</label>
+                                                    <input type="email"  name="correo" id="correo"class="form-control" required>
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Correo</label>
-                                                            <input type="email"  name="correo" id="correo"class="form-control" required>
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Fecha de reserva</label>
+                                                    <input type="datetime-local"  name="fecha_reserva" id="fecha_reserva" class="form-control" required>
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Fecha de reserva</label>
-                                                            <input type="datetime-local"  name="fecha_reserva" id="fecha_reserva" class="form-control" required>
-                                                        </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Pago</label>
+                                                    <input type="text"  name="pago" id="pago"class="form-control" value="" required>
+                                                </div>
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Pago</label>
-                                                            <input type="text"  name="pago" id="pago"class="form-control" required>
-                                                        </div>
+                                                <div class="form-group col-md-3">
 
-                                                        <div class="form-group col-md-6">
-                                                            <label for="">Hora de Reserva</label>
-                                                            <input type="time"  name="hora" id="hora"class="form-control" required>
-                                                        </div>
+                                                    <label for="hora_inicio">Desde:</label>
+                                                    <select class="form-control" id="hora_inicio" name="hora_inicio">
+                                                        {% for op in horarioI %}
+                                                            <option value="{{ op.0 }}">{{ op.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
 
+                                                <div class="form-group col-md-3">
+                                                    <label for="hora_inicio">Hasta:</label>
+                                                    <select class="form-control" id="hora_final" name="hora_final">
+                                                        {% for op in horarioF %}
+                                                            <option value="{{ op.0 }}">{{ op.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
 
-
-
-
+                                                    <div class="form-group col-md-12">
                                                         <br>
-                                                        
-                                                        <div class="modal-footer form-group">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Cerrar</button>
-                                                            <button type="submit" class="btn btn-primary" >Guardar</button>
-                                                        </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
-                                            </div>
+
+                                                <div class="modal-footer form-group">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary" >Guardar</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-
-                                    <form class="d-flex" role="search" method="get">
-                                        <input class="form-control me-2" type="search" placeholder="Buscar...."
-                                            aria-label="Search" name="buscarres">
-                                        <button class="btn btn-outline-secondary" type="submit" id="buscador"><i
-                                                class="fas fa-search"></i></button>
-                                    </form>
-
                                 </div>
-                            </nav>
+                            </div>
+
+                            <form class="d-flex" role="search" method="get">
+                                <input class="form-control me-2" type="search" placeholder="Buscar...."
+                                    aria-label="Search" name="buscarres">
+                                <button class="btn btn-outline-secondary" type="submit" id="buscador"><i
+                                        class="fas fa-search"></i></button>
+                            </form>
+
                         </div>
-                    </div>
+                    </nav>
+                </div>
+            </div>
 
-                    <div class="card mt-1">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="table-responsive">
-                                        <!-- Tabla de reserva -->
-                                        <table class='table table-bordered table-stripe table-hover'>
-                                            <thead class="text-center">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>CI/RUC</th>
-                                                    <th>Telefono</th>
-                                                    <th>Dirección</th>
-                                                    <th>Correo</th>
-                                                    <th> Estado</th>
-                                                    <th>Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                <tr class='text-center'>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
-                                                            data-bs-target="#modalEditar">
-                                                            <i class="fa-solid fa-pen"></i></button></a>
-                                                        <a href="" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <!-- Fin Tabla de Reserva -->
+            <div class="card mt-1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <!-- Tabla de reserva -->
+                                <table class='table table-bordered table-stripe table-hover'>
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>CI/RUC</th>
+                                            <th>Telefono</th>
+                                            <th>Dirección</th>
+                                            <th>Correo</th>
+                                            <th> Estado</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr class='text-center'>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
+                                                    data-bs-target="#modalEditar">
+                                                    <i class="fa-solid fa-pen"></i></button></a>
+                                                <a href="" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Fin Tabla de Reserva -->
 
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endblock %}
-                
+        </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'javascript/funciones.js' %}"></script>
+{% endblock %}
+        

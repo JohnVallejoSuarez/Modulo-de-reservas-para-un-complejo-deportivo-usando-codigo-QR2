@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from reservas.models import Disiplina,Instalacion
+from reservas.models import Disiplina,Instalacion, Reserva, opciones_horaInicio, opciones_horaFin
 
 # Create your views here.
 def home(request):
@@ -155,4 +155,6 @@ def eliminacionInstalacion(request,id):
     return redirect('/adminInstalaciones') 
 
 def adminReservas(request):
-    return render(request, 'adminReservas.html')
+    instalaciones = Instalacion.objects.all()
+    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'instalaciones':instalaciones}
+    return render(request, 'adminReservas.html', data)
