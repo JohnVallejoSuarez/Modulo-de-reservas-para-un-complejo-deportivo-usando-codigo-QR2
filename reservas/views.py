@@ -97,11 +97,14 @@ def registroInstalacion(request):
 def verInstalacion(request,id):
     verinstalacion = Instalacion.objects.get(id=id)
     listaDisiplinas = Disiplina.objects.all()
+    listaReservas=Reserva.objects.all()
+   
+    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas}
     
     
 
 
-    return render(request, 'verInstalaciones.html', {'verInstalacion': verinstalacion,'disiplinas': listaDisiplinas})
+    return render(request, 'verInstalaciones.html',  data)
 
 def editaInstalacion(request,id):
     edicioninstalacion = Instalacion.objects.get(id=id)
