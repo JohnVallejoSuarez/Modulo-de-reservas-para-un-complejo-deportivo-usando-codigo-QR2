@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from reservas.models import Disiplina,Instalacion, Reserva, opciones_horaInicio, opciones_horaFin
 
+from django.http import JsonResponse
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -101,9 +103,6 @@ def verInstalacion(request,id):
    
     data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas}
     
-    
-
-
     return render(request, 'verInstalaciones.html',  data)
 
 def editaInstalacion(request,id):
@@ -161,3 +160,12 @@ def adminReservas(request):
     instalaciones = Instalacion.objects.all()
     data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'instalaciones':instalaciones}
     return render(request, 'adminReservas.html', data)
+
+
+def validarFecha(request):
+    fecha = request.GET.get('fecha_reserva', None)
+    data = {
+        'is_taken': Reserva.objects.filter(fecha_reservada=fecha).exists()
+    }
+    
+    return JsonResponse(data)
