@@ -82,18 +82,18 @@
   <div class="row align-items-start">
     <div class="col">
       <h3>FORMULARIO DE RESERVA </h3>
-      <form class="row g-3">
+      <form action="/registroReservas/{{verInstalacion.id}}" method="post" class="row g-3">{% csrf_token %}
         <div class="col-md-12">
           <label for="inputEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com">
+          <input type="email" class="form-control" name="correo" id="correo" placeholder="email@example.com">
         </div>
         <div class="col-6">
           <label for="inputNombre" class="form-label">Nombres</label>
-          <input type="text" class="form-control" id="inputNombre" placeholder="">
+          <input type="text" class="form-control" name="nombre" id="nombre" placeholder="">
         </div>
         <div class="col-6">
           <label for="inputApellido" class="form-label">Apellidos</label>
-          <input type="text" class="form-control" id="inputApellido" placeholder="">
+          <input type="text" class="form-control" name="apellido" id="apellido" placeholder="">
         </div>
         <div class="form-group col-md-6">
           <label for="">Ci/Ruc</label>
@@ -105,7 +105,7 @@
         </div>
         <div class="col-md-4">
           <label for="inputFecha" class="form-label">Fecha a Reservar</label>
-          <input type="date" class="form-control" id="inputFecha">
+          <input type="date" class="form-control" name="fecha_reserva" id="fecha_reserva">
         </div>
         <div class="col-md-4">
           <label for="inputHorainicio" class="form-label">Hora Inicio</label>

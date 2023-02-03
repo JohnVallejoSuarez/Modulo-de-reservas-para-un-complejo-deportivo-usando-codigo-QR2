@@ -167,6 +167,43 @@ def adminReservas(request):
     data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'instalaciones':instalaciones}
     return render(request, 'adminReservas.html', data)
 
+def registroReservas(request,id):
+    nombre = request.POST['nombre']
+    apellido = request.POST['apellido']
+    ci = request.POST['ci']
+    telefono = request.POST['telefono']
+    correo = request.POST['correo']
+
+    instalacion=Instalacion()
+    instalacion.id = int(id)
+    instalacion_reserva=instalacion
+
+    codigo="gfgsefefjefhuehjgdjjdefaul"
+    pago = request.POST['pago']
+
+    fecha_reserva = request.POST['fecha_reserva']
+    hora_inicio = request.POST['hora_inicio']
+    hora_final = request.POST['hora_final']
+    
+
+    Reserva.objects.create(
+        nombres=nombre,
+        apellidos=apellido,
+        cedula=ci,
+        telefono=telefono,
+        email=correo,
+        id_instalacion=instalacion_reserva,
+        fecha_reservada=fecha_reserva,
+        codigo_qr=codigo,
+        pago=pago,
+        hora_inicio=hora_inicio,
+        hora_fin=hora_final,
+
+        
+    )
+    return redirect('/adminReservas')
+
+
 
 def validarFecha(request):
     fecha = request.GET.get('fecha_reserva', None)

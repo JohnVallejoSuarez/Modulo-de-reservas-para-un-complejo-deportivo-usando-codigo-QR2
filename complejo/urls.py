@@ -40,6 +40,7 @@ urlpatterns = [
     path('eliminacionInstalacion/<id>', views.eliminacionInstalacion, name='eliminacionInstalacion'),
    
     path('adminReservas/', views.adminReservas, name='adminReservas'),
+    path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
     #Validaciones 
     re_path(r'^validarFecha/$', views.validarFecha, name='validarFecha'),
     
