@@ -8,10 +8,16 @@ def home(request):
     return render(request, 'home.html')
 
 def instalaciones(request):
-    return render(request, 'instalaciones.html')
+    listaInstalaciones = Instalacion.objects.all()
+    return render(request, 'instalaciones.html',{'instalaciones': listaInstalaciones})
 
-def detalleInstalacion(request):
-    return render(request, 'vista_reserva.html')
+def detalleInstalacion(request,id):
+    verinstalacion = Instalacion.objects.get(id=id)
+    listaDisiplinas = Disiplina.objects.all()
+    listaReservas=Reserva.objects.all()
+   
+    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin,'verInstalacion':verinstalacion, 'disiplinas': listaDisiplinas,'reservas':listaReservas}
+    return render(request, 'vista_reserva.html',data)
 
 def adminDisiplinas(request):
     busqueda= request.GET.get("buscardisiplina")

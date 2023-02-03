@@ -15,10 +15,7 @@
                     <nav class="navbar bg-light">
                         <div class="container-fluid">
 
-                            <button type="button" class="btn btn-primary separacion" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" >
-                                <i class="fa fa-user-circle"></i> Nueva Reserva
-                            </button>
+
 
 
                             <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -33,17 +30,7 @@
 
                                         <div class="modal-body">
                                             <form action="/registrarReserva/" method="post" class="row" >
-                                                <div class="form-group col-md-12">
-                                                    <label for="">Instalacion</label>
-                                                    <select type="text" class="form-select" name="instalacion" id="instalacion" required>
-                                                        <option selected disabled>---------------</option>
-                                                        {% for i in instalaciones %}
-                                                        {% if i.estado == True %}
-                                                        <option value="{{ i.id }}" >{{ i.nombre }}</option>
-                                                        {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div> 
+                                                
                                                 <div class="form-group col-md-6">
                                                     <label for="">Nombre</label>
                                                     <input type="text" name="nombre" id="nombre" class="form-control"  required>

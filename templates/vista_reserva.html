@@ -9,27 +9,26 @@
   <div class="row align-items-start">
     <div class="col-lg-7">
       <div class="container special-img borde position-relative overflow-hidden ">
-        <img class=" " src="img/Cancha_sintetica.jpg" style="width:80%" alt="Escenario">
+        <img class=" " src="../media/{{verInstalacion.imagen}}" style="width:80%" alt="Escenario">
       </div>
     </div>
     <!-- <hr class="vertical"> -->
     <div class="col-lg-5">
       <div class="col">
         PRECIO
-        <h2> 20$ x HORA</h2>
+        <h2> {{verInstalacion.precio}}</h2>
       </div>
       <hr>
       <div class="col">
         NOMBRE
-        <h1> Cancha de Futbol de 100 x 40 </h1>
+        <h1> {{verInstalacion.nombre}}</h1>
       </div>
       <hr>
       <div class="col">
         <h2> Incluye:</h2>
         <ul type="cicle">
-          <li>Balon </li>
-          <li>Chalecos </li>
-          <li>Uso de duchas</li>
+          <li>{{verInstalacion.equipo_incluido}} </li>
+          
         </ul>
       </div>
 
@@ -40,7 +39,7 @@
   <div class="row align-items-start">
     <div class="col">
       <h3> DESCRIPCION </h3>
-      <p> Es una chancha bonita </p>
+      <p> {{verInstalacion.descripcion}} </p>
     </div>
   </div>
   <hr>
@@ -54,23 +53,23 @@
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+            <td><b> Capacidad:</b></td>
+            <td>{{verInstalacion.capacidad}}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
+            <td><b>  Indumentaria Necesaria:</b></td>
+            <td>{{verInstalacion.indumentaria}}</td>
           </tr>
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+            <td><b>Recomendaciones: </b> </td>
+            <td>{{verInstalacion.recomendaciones}}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
+            <td><b> Restriciones:</b></td>
+            <td>{{verInstalacion.restriciones}}</td>
           </tr>
 
         </tbody>
@@ -96,24 +95,44 @@
           <label for="inputApellido" class="form-label">Apellidos</label>
           <input type="text" class="form-control" id="inputApellido" placeholder="">
         </div>
+        <div class="form-group col-md-6">
+          <label for="">Ci/Ruc</label>
+          <input type="text" name="ci" id="ci"class="form-control"   maxlength="10" minlength="10"  required> 
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">Telefono</label>
+          <input type="text" name="telefono" id="telefono" class="form-control" pattern="^[0-9999999999]+" maxlength="10" minlength="10" required>
+        </div>
         <div class="col-md-4">
           <label for="inputFecha" class="form-label">Fecha a Reservar</label>
           <input type="date" class="form-control" id="inputFecha">
         </div>
         <div class="col-md-4">
           <label for="inputHorainicio" class="form-label">Hora Inicio</label>
-          <input type="time" class="form-control" id="inputHorainicio">
+          <select class="form-control" id="hora_inicio" name="hora_inicio">
+            {% for op in horarioI %}
+                <option value="{{ op.0 }}">{{ op.1 }}</option>
+            {% endfor %}
+          </select>
         </div>
 
         <div class="col-md-4">
           <label for="inputHorafin" class="form-label">Hora Fin</label>
-          <input type="time" class="form-control" id="inputHorafin">
+          <select class="form-control" id="hora_final" name="hora_final">
+            {% for op in horarioF %}
+                <option value="{{ op.0 }}">{{ op.1 }}</option>
+            {% endfor %}
+          </select>
         </div>
 
+        <div class="col-md-4"></div>
+
         <div class="col-md-4">
-          <label for="inputHorafin" class="form-label">Precio</label>
-          <input type="number" class="form-control" id="inputHorafin">
+          <label for="inputHorafin" class="form-label">Total a pagar</label>
+          <input type="text" class="form-control" name="pago" id="pago" value="{{verInstalacion.precio}}" readonly>
         </div>
+        <div class="col-md-4"></div>
+
 
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Pagar/Reservar</button>
@@ -124,3 +143,6 @@
 </div>
 
 {% endblock %}
+
+
+
