@@ -88,7 +88,7 @@ hora_final.addEventListener('click', () =>{
 });
 
 
-// Validación de la cédula ya existente
+// Validación de los horarios 
 $(function(){
     $("#fecha_reserva").change(function () {
       var fecha = $(this).val();
@@ -102,7 +102,7 @@ $(function(){
         success: function (data) {
           if (data.is_taken) {
             // alert("La fecha ya existe");
-            document.getElementById("respuesta").innerHTML = "La cédula ya existe";
+            document.getElementById("respuesta").innerHTML = " ";
           }
           else {
             document.getElementById("respuesta").innerHTML = " ";
