@@ -163,8 +163,8 @@ def eliminacionInstalacion(request,id):
     return redirect('/adminInstalaciones') 
 
 def adminReservas(request):
-    instalaciones = Instalacion.objects.all()
-    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'instalaciones':instalaciones}
+    listaReserva = Reserva.objects.all()
+    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'reservas':listaReserva}
     return render(request, 'adminReservas.html', data)
 
 def registroReservas(request,id):
@@ -178,7 +178,7 @@ def registroReservas(request,id):
     instalacion.id = int(id)
     instalacion_reserva=instalacion
 
-    codigo="gfgsefefjefhuehjgdjjdefaul"
+    codigo=str(request.POST['apellido'])+str(request.POST['ci'])+str(request.POST['telefono']) 
     pago = request.POST['pago']
 
     fecha_reserva = request.POST['fecha_reserva']

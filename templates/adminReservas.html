@@ -126,23 +126,27 @@
                                             <th>Apellido</th>
                                             <th>CI/RUC</th>
                                             <th>Telefono</th>
-                                            <th>Dirección</th>
                                             <th>Correo</th>
-                                            <th> Estado</th>
+                                            <th>Fecha de la reserva</th>
+                                            <th>Fecha reservada</th>
+                                            <th>Hora Inicio</th>
+                                            <th>Hora Final</th>
                                             <th>Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        {% for r in reservas %}
                                         <tr class='text-center'>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{r.nombres}}</td>
+                                            <td>{{r.apellidos}}</td>
+                                            <td>{{r.cedula}}</td>
+                                            <td>{{r.telefono}}</td>
+                                            <td>{{r.email}}</td>
+                                            <td>{{r.fecha_reservacion}}</td>
+                                            <td>{{r.fecha_reservada}}</td>
+                                            <td>{{r.hora_inicio}}</td>
+                                            <td>{{r.hora_fin}}</td>
                                             <td>
                                                 <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
                                                     data-bs-target="#modalEditar">
@@ -150,6 +154,7 @@
                                                 <a href="" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
                                             </td>
                                         </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                                 <!-- Fin Tabla de Reserva -->
