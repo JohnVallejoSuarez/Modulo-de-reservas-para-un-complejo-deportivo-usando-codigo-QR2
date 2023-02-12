@@ -29,7 +29,7 @@
                 <ul class="navbar-nav mx-auto ">
                     <li class="nav-item">
                         <a class="nav-link active text-black fs-5" aria-current="page"
-                            href="{% url 'home' %}">Home&nbsp</a>
+                            href="{% url 'login' %}">Home&nbsp</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active text-black fs-5" aria-current="page"
@@ -42,6 +42,7 @@
                 </ul>
                 <ul class="navbar-nav ">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
+                    
                 </ul>
             </div>
         </div>
@@ -58,24 +59,24 @@
                 </div>
 
                 <div class="modal-body">
-                    <form action="." method="post" class="row">
-                        <div class="form-group">
-                            <label class="mb-1">Ingresa tu Usuario:</label>
-                        </div>
-
-                        <div class="form-group mb-1">
-                            <label for="">Ingresa tu Contraseña:</label>
-                        </div>
+                    <form action="." method="post" class="p-4 p-md-5 border rounded-3 bg-light" > {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-floating mb-3">
+                                <input type="{{field.html_name}}" class="form-control rounded-3" id="{{ field.id_for_label }}" placeholder="name@example.com" name="{{field.html_name}}">
+                                <label for="{{ field.id_for_label }}">{% if field.html_name == 'username' %} Usuario {% else %} Contrseña {% endif%} </label>
+                            </div>
+                        {% endfor %}
                         <div class="modal-footer form-group">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <!-- <button type="submit" class="btn btn-primary">Iniciar</button> -->
-                            <a href="{% url 'adminInstalaciones' %}" class="btn btn-primary">Iniciar</a>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" >Iniciar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+   
     {% endblock %}
 
     {% block content %}{% endblock %}

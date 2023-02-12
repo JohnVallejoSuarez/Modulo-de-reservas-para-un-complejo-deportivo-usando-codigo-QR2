@@ -3,9 +3,25 @@ from reservas.models import Disiplina,Instalacion, Reserva, opciones_horaInicio,
 
 from django.http import JsonResponse
 
+from django.contrib.auth.views import LoginView,LogoutView
+import complejo.settings as setting
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+
+class LoginFormView(LoginView):
+    template_name ='home.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(setting.LOGIN_REDIRECT_URL)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs) :
+        context=super().get_context_data(**kwargs)
+        context['title']="Iniciar Secion"
+        return context
 
 def instalaciones(request):
     listaInstalaciones = Instalacion.objects.all()
