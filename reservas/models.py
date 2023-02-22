@@ -25,40 +25,13 @@ class Instalacion(models.Model):
     def __str__(self):
         return self.nombre
 
+class Horario(models.Model):
+    HorarioInicio = models.TimeField(blank=True)
+    HorarioFin = models.TimeField(blank=True)
 
-opciones_horaInicio = [
-    [0,'08:00:00'],
-    [1,'09:00:00'],
-    [2,'10:00:00'],
-    [3,'11:00:00'],
-    [4,'12:00:00'],
-    [5,'13:00:00'],
-    [6,'14:00:00'],
-    [7,'15:00:00'],
-    [8,'16:00:00'],
-    [9,'17:00:00'],
-    [10,'18:00:00'],
-    [11,'19:00:00'],
-    [12,'20:00:00'],
-    [13,'21:00:00'],
-]
+    def __str__(self):
+        return f'{self.HorarioInicio} - {self.HorarioFin}'
 
-opciones_horaFin = [
-    [0,'09:00:00'],
-    [1,'10:00:00'],
-    [2,'11:00:00'],
-    [3,'12:00:00'],
-    [4,'13:00:00'],
-    [5,'14:00:00'],
-    [6,'15:00:00'],
-    [7,'16:00:00'],
-    [8,'17:00:00'],
-    [9,'18:00:00'],
-    [10,'19:00:00'],
-    [11,'20:00:00'],
-    [12,'21:00:00'],
-    [13,'22:00:00'],
-]
 
 class Reserva(models.Model):
     id_instalacion = models.ForeignKey(Instalacion, on_delete=models.CASCADE)
@@ -71,6 +44,5 @@ class Reserva(models.Model):
     fecha_reservada = models.DateField()
     codigo_qr = models.CharField(max_length=255, unique=True)
     pago = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
-    hora_inicio = models.IntegerField(choices=opciones_horaInicio)
-    hora_fin = models.IntegerField(choices=opciones_horaFin)
+    horario = models.ManyToManyField(Horario)
     estado = models.BooleanField(default=True)

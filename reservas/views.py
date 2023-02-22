@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from reservas.models import Disiplina,Instalacion, Reserva, opciones_horaInicio, opciones_horaFin
+from reservas.models import Disiplina,Instalacion, Reserva,Horario
 
 from django.http import JsonResponse
 
@@ -31,9 +31,17 @@ def detalleInstalacion(request,id):
     verinstalacion = Instalacion.objects.get(id=id)
     listaDisiplinas = Disiplina.objects.all()
     listaReservas=Reserva.objects.all()
-   
-    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin,'verInstalacion':verinstalacion, 'disiplinas': listaDisiplinas,'reservas':listaReservas}
+    listaHorarios = Horario.objects.all()
+
+    data = {
+        'horarios':listaHorarios,
+        'verInstalacion':verinstalacion,
+        'disiplinas': listaDisiplinas,
+        'reservass':listaReservas, 
+    }
+
     return render(request, 'vista_reserva.html',data)
+
 
 def adminDisiplinas(request):
     busqueda= request.GET.get("buscardisiplina")
@@ -123,7 +131,7 @@ def verInstalacion(request,id):
     listaDisiplinas = Disiplina.objects.all()
     listaReservas=Reserva.objects.all()
    
-    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas}
+    data = {'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas}
     
     return render(request, 'verInstalaciones.html',  data)
 
@@ -180,7 +188,7 @@ def eliminacionInstalacion(request,id):
 
 def adminReservas(request):
     listaReserva = Reserva.objects.all()
-    data = {'horarioI':opciones_horaInicio, 'horarioF':opciones_horaFin, 'reservas':listaReserva}
+    data = {'reservas':listaReserva}
     return render(request, 'adminReservas.html', data)
 
 def registroReservas(request,id):
@@ -219,6 +227,55 @@ def registroReservas(request,id):
     )
     return redirect('/adminReservas')
 
+def registroReservasU(request,id):
+    nombre = request.POST['nombre']
+    apellido = request.POST['apellido']
+    ci = request.POST['ci']
+    telefono = request.POST['telefono']
+    correo = request.POST['correo']
+    instalacion=Instalacion()
+    instalacion.id = int(id)
+    instalacion_reserva=instalacion
+    codigo=str(request.POST['apellido'])+str(request.POST['ci'])+str(request.POST['telefono']) 
+    pago = request.POST['pago']
+    fecha_reserva = request.POST['fecha_reserva']
+    horario = request.POST.getlist('horario')
+    reserva = Reserva.objects.create(
+        nombres=nombre,
+        apellidos=apellido,
+        cedula=ci,
+        telefono=telefono,
+        email=correo,
+        id_instalacion=instalacion_reserva,
+        fecha_reservada=fecha_reserva,
+        codigo_qr=codigo,
+        pago=pago,  
+    )
+
+    reserva.horario.set(horario)
+    return redirect('/instalaciones')
+
+def reservas_api(request):
+    id_instalacion = request.GET.get('id_instalacion')
+    fecha_reservada = request.GET.get('fecha_reservada')
+    
+    # Obtener la instalación correspondiente al id dado
+    instalacion = Instalacion.objects.get(id=id_instalacion)
+    
+    # Obtener los horarios reservados para la fecha dada y la instalación
+    reservas = Reserva.objects.filter(id_instalacion_id=id_instalacion, fecha_reservada=fecha_reservada)
+
+    horarios_reservados = []
+    for reserva in reservas:
+        horarios_reservados.extend(reserva.horario.all())
+
+    # Obtener todos los horarios disponibles para la instalación
+    horarios_instalacion = Horario.objects.all()
+    horarios_disponibles = [horario for horario in horarios_instalacion if horario not in horarios_reservados]
+
+    # Serializar los horarios disponibles y retornarlos en formato JSON
+    horarios_disponibles_serializados = [{'id': horario.id, 'HorarioInicio': horario.HorarioInicio, 'HorarioFin': horario.HorarioFin} for horario in horarios_disponibles]
+    return JsonResponse(horarios_disponibles_serializados, safe=False)
 
 
 def validarFecha(request):

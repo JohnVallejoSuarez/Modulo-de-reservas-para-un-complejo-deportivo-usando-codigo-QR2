@@ -82,7 +82,7 @@
   <div class="row align-items-start">
     <div class="col">
       <h3>FORMULARIO DE RESERVA </h3>
-      <form action="/registroReservas/{{verInstalacion.id}}" method="post" class="row g-3">{% csrf_token %}
+      <form action="/registroReservasU/{{verInstalacion.id}}" method="post" class="row g-3">{% csrf_token %}
         <div class="col-md-12">
           <label for="inputEmail" class="form-label">Email</label>
           <input type="email" class="form-control" name="correo" id="correo" placeholder="email@example.com">
@@ -109,38 +109,75 @@
         </div>
         <div class="col-md-4">
           <label for="inputHorainicio" class="form-label">Hora Inicio</label>
-          <select class="form-control" id="hora_inicio" name="hora_inicio">
-            {% for op in horarioI %}
-                <option value="{{ op.0 }}">{{ op.1 }}</option>
+          <select class="form-select"  id="horario" name="horario" multiple size="9" required>
+            {% for op in horarios %}
+                <option value="{{ op.id }}">Desde {{ op.HorarioInicio|time:"H:i" }} Hasta {{ op.HorarioFin|time:"H:i" }}</option>
             {% endfor %}
           </select>
         </div>
-
-        <div class="col-md-4">
-          <label for="inputHorafin" class="form-label">Hora Fin</label>
-          <select class="form-control" id="hora_final" name="hora_final">
-            {% for op in horarioF %}
-                <option value="{{ op.0 }}">{{ op.1 }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
+        
         <div class="col-md-4"></div>
 
         <div class="col-md-4">
           <label for="inputHorafin" class="form-label">Total a pagar</label>
           <input type="text" class="form-control" name="pago" id="pago" value="{{verInstalacion.precio}}" readonly>
         </div>
-        <div class="col-md-4"></div>
-
-
+        
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Pagar/Reservar</button>
         </div>
       </form>
+
+      <div id="reservas-container"></div>
+      <!-- Incluir jQuery usando el CDN de Google -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+      <script>
+        
+        $(function() {
+          // Obtener el id de la instalacion de la url actual
+          const url = window.location.href;
+          const id = url.split('/').pop();
+
+          // Manejador de evento para el cambio de fecha
+          $('#fecha_reserva').change(function() {
+            var fechaReservada = $(this).val();
+            console.log(fechaReservada);
+
+            // Llamar a la API para obtener horarios disponibles en la fecha seleccionada
+            $.ajax({
+              url: '/reservas_api/',
+              data: {
+                'id_instalacion': id,
+                'fecha_reservada': fechaReservada
+              },
+              dataType: 'json',
+              success: function(data) {
+                console.log('Horarios disponibles en la fecha seleccionada:');
+                console.log(data);
+
+                // Limpiar el contenido del select
+                $('#horario').empty();
+
+                // Agregar cada horario disponible como una opción del select
+                data.forEach(function(horario) {
+                  $('#horario').append($('<option>', {
+                    value: horario.id,
+                    text: 'Desde ' + horario.HorarioInicio + ' Hasta ' + horario.HorarioFin
+                  }));
+                });
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error al recuperar datos de la API: ' + errorThrown);
+              }
+            });
+          });
+        });
+      </script>
     </div>
   </div>
 </div>
+
 
 {% endblock %}
 

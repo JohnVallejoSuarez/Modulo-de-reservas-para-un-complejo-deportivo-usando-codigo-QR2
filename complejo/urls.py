@@ -28,6 +28,7 @@ urlpatterns = [
 
     path('instalaciones/', views.instalaciones, name='instalaciones'),
     path('detalleInstalacion/<id>', views.detalleInstalacion, name='detalleInstalacion'),
+    path('registroReservasU/<id>', views.registroReservasU, name='registroReservasU'),
 
     path('adminDisiplinas/', views.adminDisiplinas, name='adminDisiplinas'),
     path('registroDisiplina/', views.registroDisiplina, name='registroDisiplina'), 
@@ -47,6 +48,7 @@ urlpatterns = [
     path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
     #Validaciones 
     re_path(r'^validarFecha/$', views.validarFecha, name='validarFecha'),
+    path('reservas_api/', views.reservas_api, name='reservas_api'),
     
    ]
 if settings.DEBUG:
