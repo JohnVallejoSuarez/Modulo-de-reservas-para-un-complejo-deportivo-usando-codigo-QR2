@@ -102,7 +102,7 @@
 
                             <form class="d-flex" role="search" method="get">
                                 <input class="form-control me-2" type="search" placeholder="Buscar...."
-                                    aria-label="Search" name="buscarres">
+                                    aria-label="Search" name="buscarreserva" id="buscarreserva">
                                 <button class="btn btn-outline-secondary" type="submit" id="buscador"><i
                                         class="fas fa-search"></i></button>
                             </form>
@@ -127,10 +127,11 @@
                                             <th>CI/RUC</th>
                                             <th>Telefono</th>
                                             <th>Correo</th>
+                                            <th>Instalación</th>
                                             <th>Fecha Reserva</th>
                                             <th>Fecha Reservada</th>
-                                            <th>Hora Inicio</th>
-                                            <th>Hora Final</th>
+                                            <th>Hora(s) Inicio</th>
+                                            <th>Hora(s) Final</th>
                                             <th>Acción</th>
                                         </tr>
                                     </thead>
@@ -143,10 +144,15 @@
                                             <td>{{r.cedula}}</td>
                                             <td>{{r.telefono}}</td>
                                             <td>{{r.email}}</td>
+                                            <td>{{r.id_instalacion.nombre }}</td>
                                             <td>{{r.fecha_reservacion}}</td>
                                             <td>{{r.fecha_reservada}}</td>
-                                            <td>{{r.hora_inicio}}</td>
-                                            <td>{{r.hora_fin}}</td>
+                                            <td>{% for horario in r.horario.all %}
+                                                {{ horario.HorarioInicio }}{% if not forloop.last %}, {% endif %}
+                                                {% endfor %}</td>
+                                            <td>{% for horario in r.horario.all %}
+                                                {{ horario.HorarioFin }}{% if not forloop.last %}, {% endif %}
+                                                {% endfor %}</td>
                                             <td>
                                                 <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
                                                     data-bs-target="#modalEditar">

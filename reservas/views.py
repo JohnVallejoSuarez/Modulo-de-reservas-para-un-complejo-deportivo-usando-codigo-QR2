@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.contrib.auth.views import LoginView,LogoutView
 import complejo.settings as setting
 
+from django.db.models import Q
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -26,6 +27,7 @@ class LoginFormView(LoginView):
 def instalaciones(request):
     listaInstalaciones = Instalacion.objects.all()
     return render(request, 'instalaciones.html',{'instalaciones': listaInstalaciones})
+    
 
 def detalleInstalacion(request,id):
     verinstalacion = Instalacion.objects.get(id=id)
@@ -130,8 +132,9 @@ def verInstalacion(request,id):
     verinstalacion = Instalacion.objects.get(id=id)
     listaDisiplinas = Disiplina.objects.all()
     listaReservas=Reserva.objects.all()
+    listaHorarios = Horario.objects.all()
    
-    data = {'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas}
+    data = {'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas,'horarios':listaHorarios,}
     
     return render(request, 'verInstalaciones.html',  data)
 
@@ -188,7 +191,22 @@ def eliminacionInstalacion(request,id):
 
 def adminReservas(request):
     listaReserva = Reserva.objects.all()
-    data = {'reservas':listaReserva}
+    # horariosReservados=listaReserva.horario.all()
+    busqueda= request.GET.get("buscarreserva")
+
+    
+    reservas = Reserva.objects.select_related('id_instalacion').prefetch_related('horario').all()
+    if busqueda:
+        reservas=Reserva.objects.filter(
+            Q(cedula__icontains=busqueda) |
+            Q(nombres__icontains=busqueda) |
+            Q(apellidos__icontains=busqueda)|
+            Q(fecha_reservacion__icontains=busqueda) |
+            Q(fecha_reservada__icontains=busqueda)|
+            Q(id_instalacion__nombre__icontains=busqueda)  #Para buscar en un foraneo
+
+        ).distinct()
+    data = {'reservas':reservas}
     return render(request, 'adminReservas.html', data)
 
 def registroReservas(request,id):
@@ -204,13 +222,9 @@ def registroReservas(request,id):
 
     codigo=str(request.POST['apellido'])+str(request.POST['ci'])+str(request.POST['telefono']) 
     pago = request.POST['pago']
-
     fecha_reserva = request.POST['fecha_reserva']
-    hora_inicio = request.POST['hora_inicio']
-    hora_final = request.POST['hora_final']
-    
-
-    Reserva.objects.create(
+    horario = request.POST.getlist('horario')
+    reserva = Reserva.objects.create(
         nombres=nombre,
         apellidos=apellido,
         cedula=ci,
@@ -219,12 +233,10 @@ def registroReservas(request,id):
         id_instalacion=instalacion_reserva,
         fecha_reservada=fecha_reserva,
         codigo_qr=codigo,
-        pago=pago,
-        hora_inicio=hora_inicio,
-        hora_fin=hora_final,
-
-        
+        pago=pago,  
     )
+
+    reserva.horario.set(horario)
     return redirect('/adminReservas')
 
 def registroReservasU(request,id):
