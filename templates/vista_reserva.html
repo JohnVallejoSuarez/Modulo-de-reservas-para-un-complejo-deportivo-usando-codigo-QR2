@@ -173,6 +173,35 @@
             });
           });
         });
+
+        //--------
+        const select = document.getElementById("horario");
+        const costo = document.getElementById('pago').value;
+        let pago = document.getElementById('pago')
+
+        // Funcion para seleccionar una opcion sin precionar ctrl 
+        // y para cambiar el valor del input de pago
+        select.addEventListener("mousedown", function(event) {
+          event.preventDefault();
+          
+          const select = this;
+          const scroll = select.scrollTop;
+          
+          event.target.selected = !event.target.selected;
+          
+          setTimeout(function() {
+              select.scrollTop = scroll;
+          }, 0);
+          
+          select.focus();
+
+          const horas = [...select.options].filter(option => option.selected);
+          // console.log(horas.length);
+          
+          let total = costo*(horas.length)
+          pago.value = total
+        });
+        
       </script>
     </div>
   </div>

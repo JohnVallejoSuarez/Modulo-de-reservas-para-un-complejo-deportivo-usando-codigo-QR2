@@ -46,6 +46,18 @@ urlpatterns = [
    
     path('adminReservas/', views.adminReservas, name='adminReservas'),
     path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
+
+
+    path('adminHorarios/', views.adminHorarios, name='adminHorarios'),
+    path('registroHorario/', views.registroHorario, name='registroHorario'), 
+    # path('edicionDisiplinas/', views.edicionDisiplinas, name='edicionDisiplinas'),
+    # path('editaDisiplina/<id>', views.editaDisiplina, name='editaDisiplina'),
+    # path('eliminacionDisiplina/<id>', views.eliminacionDisiplina, name='eliminacionDisiplina'),
+
+    #path('pagoonline/<id>', views.pagoonline,name='pagoOnline'),
+    # path('regpago/<data>', views.regpago,name='regpago'),
+    # path('regpago/<nombres>,<apellidos>,<ci>,<telefonos>,<correos>,<instalaciones>,<codigos>,<pagos>,<fecha_reservas>,<horarios>', views.regpago,name='regpago'),
+    # path('regpago/<nombres>/<apellidos>/<ci>/<telefonos>/<correos>/<instalaciones>/<codigos>/<pagos>/<fecha_reservas>/<horarios>/', views.regpago,name='regpago'),
     #Validaciones 
     re_path(r'^validarFecha/$', views.validarFecha, name='validarFecha'),
     path('reservas_api/', views.reservas_api, name='reservas_api'),
