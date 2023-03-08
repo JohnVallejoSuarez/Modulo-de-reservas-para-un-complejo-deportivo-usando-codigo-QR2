@@ -17,6 +17,8 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from django.template.loader import render_to_string
 from datetime import datetime
+
+import base64
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -292,7 +294,7 @@ def send_email(email_from, email_to, email_subject, email_body, qr_image_data):
     # Configurar el servidor SMTP
     smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
     smtp_server.starttls()
-    smtp_server.login(email_from, 'fzverbsjhwupibwg')
+    smtp_server.login(email_from, 'CONTRASEÑA')
 
     # Crear el mensaje de correo electrónico
     message = MIMEMultipart()
@@ -346,9 +348,14 @@ def registroReservasU(request, id):
     # Nombre y apellidos 
     nombre = f"{reserva.nombres} {reserva.apellidos}"
     # Actualizar el código QR con el ID de la reserva
-    codigo_qr_data = f"{reserva.id},{fecha_reserva},{', '.join(str(h) for h in reserva.horario.all())},{nombre},{correo}"
+    # codigo_qr_data = f"{reserva.id},{fecha_reserva},{', '.join(str(h) for h in reserva.horario.all())},{nombre},{correo}"
+    codificado = base64.b64encode(str(reserva.id).encode('utf-8'))
+    # codigo_qr_data = f'Reserva de: {reserva.nombres} {reserva.apellidos} con el número #{codificado}'
+    # codigo_qr_data = f'Reserva #{codificado}'
+
+    #codigo_qr_data = reserva.id
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(codigo_qr_data)
+    qr.add_data(f'Reserva: {codificado}')
     qr.make(fit=True)
     qr_image = qr.make_image(fill_color="black", back_color="white")
     qr_image_buffer = BytesIO()
@@ -356,7 +363,7 @@ def registroReservasU(request, id):
     qr_image_data = qr_image_buffer.getvalue()
 
     # Guardar el código QR actualizado en la reserva y guardar la reserva en la base de datos
-    reserva.codigo_qr = codigo_qr_data
+    reserva.codigo_qr = codificado
     reserva.save()
 
     # Obtener el objeto Instalacion correspondiente a la reserva
@@ -377,7 +384,7 @@ def registroReservasU(request, id):
 
     # Enviar el correo electrónico
     send_email(
-        email_from='johnnvallejo123@gmail.com',
+        email_from='Tu correo',
         email_to=correo,
         email_subject=f'Código QR para la reserva en la instalación {instalacion}',
         email_body=email_body,
@@ -512,3 +519,29 @@ def validarFecha(request):
     }
     
     return JsonResponse(data)
+
+
+def scaner(request):
+    return render(request, 'adminScanner.html')
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
+from .models import Reserva
+
+
+from django.core.serializers import serialize
+from django.http import JsonResponse
+@ensure_csrf_cookie
+def actualizar_estado(request):
+    if request.method == 'POST':
+        qr_value = request.POST.get('qr_value')
+        valor = qr_value.split(':')[1].strip()
+        reserva = Reserva.objects.filter(codigo_qr=valor).first()
+        if reserva:
+            reserva.estado2 = True
+            reserva.save()
+            reserva_json = serialize('json', [reserva])
+            return JsonResponse({'success': True, 'reserva': reserva_json})
+        else:
+            return JsonResponse({'success': False, 'error_message': 'No se encontró una reserva con este código QR.'})

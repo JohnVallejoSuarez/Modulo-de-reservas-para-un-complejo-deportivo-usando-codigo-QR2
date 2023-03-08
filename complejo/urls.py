@@ -61,6 +61,9 @@ urlpatterns = [
     #Validaciones 
     re_path(r'^validarFecha/$', views.validarFecha, name='validarFecha'),
     path('reservas_api/', views.reservas_api, name='reservas_api'),
+
+    path('scaner/', views.scaner, name='scaner'),
+    path('actualizar_estado/', views.actualizar_estado, name='actualizar_estado'),
     
    ]
 if settings.DEBUG:

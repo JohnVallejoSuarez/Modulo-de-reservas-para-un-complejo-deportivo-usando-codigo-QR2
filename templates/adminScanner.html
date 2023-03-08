@@ -1,0 +1,103 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %}Instalaciones{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid px-3 pt-3">
+    <div class="card card-bg">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">Reserva</h3>
+            </div>
+
+           
+        </div>
+        <div class="container-fluid mb-4">
+            <h2 class="text-center">Lector De Codigo Qr</h2>
+            {% csrf_token %}
+                <div class="user-info">
+                    <div class="text-center">
+                        <video id="preview"  style="width: 300px;"></video>
+                    </div>
+                </div>
+                <div class="card-content text-center">
+                    <h3>Datos de la reserva</h3>
+                    <div id="resultado"></div>
+                </div>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'javascript/funciones.js' %}"></script>
+
+<script src="{% static 'javascript/instascan.min.js' %}"></script>
+<script src="{% static 'javascript/jquery.min.js' %}"></script>
+<script type="text/javascript">
+
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let result = document.getElementById('resultado');
+    let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+    
+    scanner.addListener('scan', function (content) {
+        console.log(content);
+        // ...
+
+        fetch('/actualizar_estado/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrf_token
+            },
+            body: 'qr_value=' + encodeURIComponent(content)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Se actualizó el estado de la reserva.');
+
+                // Mostramos los datos de la reserva actualizada en el HTML
+                let reserva = JSON.parse(data.reserva)[0].fields;
+                let info = `Nombres: ${reserva.nombres}<br>
+                            Apellidos: ${reserva.apellidos}<br>
+                            Cédula: ${reserva.cedula}<br>
+                            Email: ${reserva.email}<br>
+                            Teléfono: ${reserva.telefono}<br>
+                            Fecha de reservación: ${reserva.fecha_reservacion}<br>
+                            Fecha reservada: ${reserva.fecha_reservada}<br>`;
+                result.innerHTML = info;
+            } else {
+                console.error(data.error_message);
+            }
+        })
+        .catch(error => console.error(error));
+    });
+
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+
+            // Guardamos el stream de la cámara en la variable videoStream
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                videoStream = stream;
+                scanner.video.srcObject = videoStream;
+            }).catch(function(error) {
+                console.error("Error al acceder a la cámara: " + error);
+            });
+        } else {
+            console.error('No se encontraron cámaras.');
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+
+
+</script>
+
+{% endblock %}
+        

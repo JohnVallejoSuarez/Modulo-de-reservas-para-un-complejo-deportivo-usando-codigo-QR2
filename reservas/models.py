@@ -46,3 +46,4 @@ class Reserva(models.Model):
     pago = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     horario = models.ManyToManyField(Horario)
     estado = models.BooleanField(default=True)
+    estado2 = models.BooleanField(default=False)
