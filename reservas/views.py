@@ -18,6 +18,14 @@ from email.mime.image import MIMEImage
 from django.template.loader import render_to_string
 from datetime import datetime
 
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
+from django.views.generic import TemplateView
+
+from django.db.models import FloatField
+
+
+
 import base64
 # Create your views here.
 def home(request):
@@ -34,6 +42,29 @@ class LoginFormView(LoginView):
     def get_context_data(self, **kwargs) :
         context=super().get_context_data(**kwargs)
         context['title']="Iniciar Secion"
+        return context
+    
+# def adminInicio(request):
+#     return render(request, 'adminInicio.html')
+
+class adminInicioView(TemplateView):
+    template_name = 'adminInicio.html'
+
+    def get_graph_sales_year_month(self):
+        data = []
+        try:
+            year = datetime.now().year
+            for m in range(1, 13):
+                total = Reserva.objects.filter(fecha_reservacion__year=year, fecha_reservacion__month=m).aggregate(r=Coalesce(Sum('pago'), 0,output_field=FloatField())).get('r')
+                data.append(float(total))
+        except:
+            pass
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['panel'] = 'Panel de administrador'
+        context['graph_sales_year_month'] = self.get_graph_sales_year_month()
         return context
 
 def instalaciones(request):
@@ -282,7 +313,7 @@ def registroReservas(request,id):
 
     # Enviar el correo electrónico
     send_email(
-        email_from='johnnvallejo123@gmail.com',
+        email_from='correo',
         email_to=correo,
         email_subject=f'Código QR para la reserva en la instalación {instalacion}',
         email_body=email_body,
@@ -294,7 +325,7 @@ def send_email(email_from, email_to, email_subject, email_body, qr_image_data):
     # Configurar el servidor SMTP
     smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
     smtp_server.starttls()
-    smtp_server.login(email_from, 'CONTRASEÑA')
+    smtp_server.login(email_from, 'contraseña')
 
     # Crear el mensaje de correo electrónico
     message = MIMEMultipart()
@@ -384,7 +415,7 @@ def registroReservasU(request, id):
 
     # Enviar el correo electrónico
     send_email(
-        email_from='Tu correo',
+        email_from='correo',
         email_to=correo,
         email_subject=f'Código QR para la reserva en la instalación {instalacion}',
         email_body=email_body,
@@ -404,33 +435,160 @@ def pagoonline(request,id):
     instalacion=Instalacion()
     instalacion.id = int(id)
     instalacion_reserva=instalacion
-    codigo=str(request.POST['apellido'])+str(request.POST['ci'])+str(request.POST['telefono']) 
+    
     pago = request.POST['pago']
     fecha_reserva = request.POST['fecha_reserva']
     horario = request.POST.getlist('horario')
+
+    reserva = Reserva.objects.create(
+        nombres=nombre,
+        apellidos=apellido,
+        cedula=ci,
+        telefono=telefono,
+        email=correo,
+        id_instalacion=instalacion_reserva,
+        
+    )
+
+    reserva.horario.set(horario)
+
+    codificado = base64.b64encode(str(reserva.id).encode('utf-8'))
+    # codigo_qr_data = f'Reserva de: {reserva.nombres} {reserva.apellidos} con el número #{codificado}'
+    # codigo_qr_data = f'Reserva #{codificado}'
+
+    #codigo_qr_data = reserva.id
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(f'Reserva: {codificado}')
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color="black", back_color="white")
+    qr_image_buffer = BytesIO()
+    qr_image.save(qr_image_buffer, format="PNG")
+    qr_image_data = qr_image_buffer.getvalue()
+
+    # Guardar el código QR actualizado en la reserva y guardar la reserva en la base de datos
+    reserva.codigo_qr = codificado
+    reserva.save()
     
   
 
-    data = {'nombres':nombre,'apellidos': apellido,'ci':ci,'telefonos':telefono,'correos':correo,'instalaciones': instalacion_reserva,'codigos':codigo,'pagos':pago,'fecha_reservas':fecha_reserva,'horarios':horario}
+    data = {'nombres':nombre,'apellidos': apellido,'ci':ci,'telefonos':telefono,'correos':correo,'instalaciones': instalacion_reserva,'codigos':codificado,'pagos':pago,'fecha_reservas':fecha_reserva,'horarios':horario}
     return render(request, 'pago.html', data)
    
     
-def regpago(request,nombres,apellidos,ci,telefonos,correos,instalaciones,codigos,pagos,fecha_reservas,horarios):
+# def regpago(request,nombres,apellidos,ci,telefonos,correos,instalaciones,codigos,pagos,fecha_reservas,horarios):
 
-    reserva = Reserva.objects.create(
-        nombres=nombres,
-        apellidos=apellidos,
-        cedula=ci,
-        telefono=telefonos,
-        email=correos,
-        id_instalacion=instalaciones,
-        fecha_reservada=fecha_reservas,
-        codigo_qr=codigos,
-        pago=pagos,  
+#     reserva = Reserva.objects.create(
+#         nombres=nombres,
+#         apellidos=apellidos,
+#         cedula=ci,
+#         telefono=telefonos,
+#         email=correos,
+#         id_instalacion=instalaciones,
+#         fecha_reservada=fecha_reservas,
+#         codigo_qr=codigos,
+#         pago=pagos,  
+#     )
+
+#     reserva.horario.set(horarios)
+#     return redirect('/instalaciones')
+
+def regpago(request):
+    reservas=Reserva.objects.all().last()
+
+    
+    pagos = request.GET.get('pagos')
+    fecha_reservas = request.GET.get('fecha_reservas')
+    
+
+    reserva=Reserva.objects.get(id=reservas.id)
+    reserva.fecha_reservada=fecha_reservas
+    reserva.pago=pagos
+    reserva.save()
+
+    # Nombre y apellidos 
+    nombre = f"{reserva.nombres} {reserva.apellidos}"
+    # Actualizar el código QR con el ID de la reserva
+    # codigo_qr_data = f"{reserva.id},{fecha_reserva},{', '.join(str(h) for h in reserva.horario.all())},{nombre},{correo}"
+    
+    # codigo_qr_data = f'Reserva de: {reserva.nombres} {reserva.apellidos} con el número #{codificado}'
+    # codigo_qr_data = f'Reserva #{codificado}'
+
+    #codigo_qr_data = reserva.id
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(f'Reserva: {reserva.codigo_qr}')
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color="black", back_color="white")
+    qr_image_buffer = BytesIO()
+    qr_image.save(qr_image_buffer, format="PNG")
+    qr_image_data = qr_image_buffer.getvalue()
+
+
+
+    # Obtener el objeto Instalacion correspondiente a la reserva
+    instalacion_reserva = reserva.id_instalacion
+
+    # Crear una cadena de texto con la información adicional
+
+    horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
+    instalacion = instalacion_reserva.nombre
+    fecha_reserva = reserva.fecha_reservada
+    data = {
+        'horarios':horarios,
+        'nombre':nombre,
+        'instalacion':instalacion,
+        'fecha_reserva':fecha_reserva,
+    }
+    email_body = render_to_string('correo_reserva.html', data)
+
+    # Enviar el correo electrónico
+    send_email(
+        email_from='correo',
+        email_to=reserva.email,
+        email_subject=f'Código QR para la reserva en la instalación {instalacion}',
+        email_body=email_body,
+        qr_image_data=qr_image_data
     )
 
-    reserva.horario.set(horarios)
+
     return redirect('/instalaciones')
+
+def eliminacionReserva(request,id):
+    reserva=Reserva.objects.get(id=id)
+    reserva.delete()
+    
+    return redirect('/adminReservas') 
+
+# def regpago(request):
+
+#     nombres = request.GET.get('nombres')
+#     apellidos = request.GET.get('apellidos')
+#     ci = request.GET.get('ci')
+#     telefonos = request.GET.get('telefonos')
+#     correos = request.GET.get('correos')
+#     instalacion=Instalacion()
+#     instalacion.id = int(request.GET.get('instalaciones'))
+#     instalacion_reserva=instalacion
+
+
+#     codigos= request.GET.get('codigos')
+#     pagos = request.GET.get('pagos')
+#     fecha_reservas = request.GET.get('fecha_reservas')
+#     horarios = request.GET.getlist('horarios')
+
+#     reserva = Reserva.objects.create(
+#         nombres=nombres,
+#         apellidos=apellidos,
+#         cedula=ci,
+#         telefono=telefonos,
+#         email=correos,
+#         id_instalacion=instalacion_reserva,
+#         fecha_reservada=fecha_reservas,
+#         codigo_qr=codigos,
+#         pago=pagos,  
+#     )
+
+#     reserva.horario.set(horarios)
+#     return redirect('/instalaciones')
 
 
 #-------Horarios
@@ -445,33 +603,36 @@ def adminHorarios(request):
     return render(request, 'adminHorarios.html',{'horarios': listaHorarios})
 
 def registroHorario(request):
-    nombre = request.POST['disnombre']
+    horarioInicio = request.POST['horaInicio']
+    horarioFinal = request.POST['horaFinal']
+    
 
     Horario.objects.create(
-        nombre=nombre,
+        HorarioInicio=horarioInicio,
+        HorarioFin=horarioFinal,
     )
-    return redirect('/adminDisiplinas')
+    return redirect('/adminHorarios')
 
-def editaDisiplina(request,id):
-    ediciondisiplina = Disiplina.objects.get(id=id)
-    return render(request, 'edicionDisiplinas.html', {'edicionDisiplina': ediciondisiplina})
+# def editaDisiplina(request,id):
+#     ediciondisiplina = Disiplina.objects.get(id=id)
+#     return render(request, 'edicionDisiplinas.html', {'edicionDisiplina': ediciondisiplina})
 
-def edicionDisiplinas(request):
-    id=request.POST['disiplinaid']
-    disiplina = Disiplina.objects.get(id=id)
+# def edicionDisiplinas(request):
+#     id=request.POST['disiplinaid']
+#     disiplina = Disiplina.objects.get(id=id)
 
-    if request.POST:
-        disiplina=Disiplina()
-        disiplina.id = request.POST.get('disiplinaid')
-        disiplina.nombre = request.POST.get('disiplinanombre')
-        disiplina.save()
-    return redirect('/adminDisiplinas')
+#     if request.POST:
+#         disiplina=Disiplina()
+#         disiplina.id = request.POST.get('disiplinaid')
+#         disiplina.nombre = request.POST.get('disiplinanombre')
+#         disiplina.save()
+#     return redirect('/adminDisiplinas')
 
-def eliminacionDisiplina(request,id):
-    disiplina=Disiplina.objects.get(id=id)
-    disiplina.delete()
+def eliminacionHorario(request,id):
+    horario=Horario.objects.get(id=id)
+    horario.delete()
     
-    return redirect('/adminDisiplinas')    
+    return redirect('/adminHorarios')    
 # def regpago(data):
 
 #     reserva = Reserva.objects.create(

@@ -41,7 +41,7 @@ class Reserva(models.Model):
     email = models.CharField(max_length=50)
     telefono = models.CharField(max_length=10)
     fecha_reservacion = models.DateField(default=datetime.now)
-    fecha_reservada = models.DateField()
+    fecha_reservada = models.DateField(null=True)
     codigo_qr = models.CharField(max_length=255, unique=True)
     pago = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     horario = models.ManyToManyField(Horario)

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,re_path
 from reservas import views
-from reservas.views import LoginFormView,LogoutView
+from reservas.views import LoginFormView,LogoutView,adminInicioView
 from django.conf import settings
 
 from django.conf.urls.static import static
@@ -25,6 +25,9 @@ urlpatterns = [
     # path('', views.home, name='home'),
     path('', LoginFormView.as_view(),name="login"),
     path('logout/', LogoutView.as_view(),name="logout"),
+
+    #path('adminInicio/', views.adminInicio, name='adminInicio'),
+    path('adminInicio/',adminInicioView.as_view(), name='adminInicio'),
 
     path('instalaciones/', views.instalaciones, name='instalaciones'),
     path('detalleInstalacion/<id>', views.detalleInstalacion, name='detalleInstalacion'),
@@ -45,16 +48,18 @@ urlpatterns = [
     path('eliminacionInstalacion/<id>', views.eliminacionInstalacion, name='eliminacionInstalacion'),
    
     path('adminReservas/', views.adminReservas, name='adminReservas'),
-    path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
+    #path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
+    path('eliminacionReserva/<id>', views.eliminacionReserva, name='eliminacionReserva'),
 
 
     path('adminHorarios/', views.adminHorarios, name='adminHorarios'),
     path('registroHorario/', views.registroHorario, name='registroHorario'), 
     # path('edicionDisiplinas/', views.edicionDisiplinas, name='edicionDisiplinas'),
     # path('editaDisiplina/<id>', views.editaDisiplina, name='editaDisiplina'),
-    # path('eliminacionDisiplina/<id>', views.eliminacionDisiplina, name='eliminacionDisiplina'),
+    path('eliminacionHorario/<id>', views.eliminacionHorario, name='eliminacionHorario'),
 
-    #path('pagoonline/<id>', views.pagoonline,name='pagoOnline'),
+    path('pagoonline/<id>', views.pagoonline,name='pagoOnline'),
+    path('regpago/', views.regpago,name='regpago'),
     # path('regpago/<data>', views.regpago,name='regpago'),
     # path('regpago/<nombres>,<apellidos>,<ci>,<telefonos>,<correos>,<instalaciones>,<codigos>,<pagos>,<fecha_reservas>,<horarios>', views.regpago,name='regpago'),
     # path('regpago/<nombres>/<apellidos>/<ci>/<telefonos>/<correos>/<instalaciones>/<codigos>/<pagos>/<fecha_reservas>/<horarios>/', views.regpago,name='regpago'),

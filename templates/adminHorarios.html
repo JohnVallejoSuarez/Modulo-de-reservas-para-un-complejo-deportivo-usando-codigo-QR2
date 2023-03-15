@@ -29,13 +29,17 @@
                                 <div class="col-12">
                                     <h2 class="col-12">Nuevo Horario</h2>
                                     <div>
-                                        <form action="/registroDisiplina/" method="post" class="row" > {% csrf_token %}
-                                            <div class="form-group col-md-6">
+                                        <form action="/registroHorario/" method="post" class="row" > {% csrf_token %}
+                                            <div class="form-group col-md-5">
                                                 <label for="">Hora Inicio</label>
-                                                <input type="time" name="disnombre" id="disnombre" class="form-control" required>
+                                                <input type="time" name="horaInicio" id="horaInicio" class="form-control" step="3600" required>
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <label for="">Hora Final</label>
+                                                <input type="time" name="horaFinal" id="horaFinal" class="form-control"step="3600"  required>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-2">
                                                 <button type="submit" class="btn btn-primary separacion" data-bs-toggle=""
                                                         data-bs-target="" >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -60,21 +64,21 @@
                                             <thead class="text-center">
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Nombre</th>
+                                                    <th>Horarios</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for d in disiplinas %}
+                                                {% for h in horarios %}
                                                 <tr class='text-center'>
                                                     <td>{{forloop.counter}}</td>
-                                                    <td>{{ d.nombre }}</td>
+                                                    <td>{{ h.HorarioInicio }} - {{ h.HorarioFin }}</td>
                                                     <td>
 
-                                                        <a href="/editaDisiplina/{{d.id}}"><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle=""
+                                                        <!-- <a href="/editaDisiplina/{{d.id}}"><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle=""
                                                             data-bs-target="">
-                                                            <i class="fa-solid fa-pen"></i></button></a>
-                                                        <a href="/eliminacionDisiplina/{{d.id}}" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
+                                                            <i class="fa-solid fa-pen"></i></button></a> -->
+                                                        <a href="/eliminacionHorario/{{d.id}}" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}

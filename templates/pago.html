@@ -9,7 +9,6 @@
     <title>Document</title>
 </head>
 <body>
-  <h1>{{nombres}}{{nombres}}{{correos}}{{pagos}}{{horarios}}</h1>
   <div class="card text-center w-75 position-absolute top-50 start-50 translate-middle">
     
     <div class="card-header">
@@ -55,6 +54,10 @@
                   // 
                   //actions.redirect("http://127.0.0.1:8000/regpago?nombres="+{{nombres}}+"&apellidos="+{{apellidos}}+"&ci={{ci}}"+"&telefonos="+{{telefonos}}+"&correos="+{{correos}}+"&instalaciones="+{{instalaciones}}+"&codigos="+{{codigos}}+"&pagos="+{{pagos}}+"&fecha_reservas="+{{fecha_reservas}}+"&horarios="+{{horarios}} );
                   // 
+                  // const lista ='{{horarios}}' ;
+                  // const listaParametros = lista.map(elemento => 'lista=' + encodeURIComponent(elemento)).join('&');
+                  
+                  actions.redirect( uri="http://127.0.0.1:8000/regpago?nombres={{nombres}}&apellidos={{apellidos}}&ci={{ci}}&telefonos={{telefonos}}&correos={{correos}}&pagos={{pagos}}&fecha_reservas={{fecha_reservas}}&instalaciones={{instalaciones}}&codigos={{codigos}}" )
 
                   // actions.redirect('http://127.0.0.1:8000/regpago/{{instalaciones}}');
                 });

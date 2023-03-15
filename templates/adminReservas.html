@@ -132,6 +132,7 @@
                                             <th>Fecha Reservada</th>
                                             <th>Hora(s) Inicio</th>
                                             <th>Hora(s) Final</th>
+                                            <th>Valor $</th>
                                             <th>Reservas Procesadas</th>
                                             <th>Acción</th>
                                             
@@ -139,6 +140,7 @@
                                     </thead>
                                     <tbody>
                                         {% for r in reservas %}
+                                        {% if r.pago > 0.00 %}
                                         <tr class='text-center'>
                                             <td>{{forloop.counter}}</td>
                                             <td>{{r.nombres}}</td>
@@ -156,18 +158,20 @@
                                                 {{ horario.HorarioFin }}{% if not forloop.last %}, {% endif %}
                                                 {% endfor %}
                                             </td>
+                                            <td>{{r.pago}}</td>
                                             {% if r.estado2 == False  %}
                                             <td style="color: red"><i class="fa fa-window-close"  aria-hidden="true"></i></td>
                                             {% elif r.estado2 == True  %}
                                             <td style="color: green"><i class="fa fa-check-square" aria-hidden="true"></i></td>
                                             {% endif%}
                                             <td>
-                                                <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
+                                                <!-- <a href=""><button class="btn btn-sm btn-success separacion" style="margin-bottom: 3%" data-bs-toggle="modal"
                                                     data-bs-target="#modalEditar">
-                                                    <i class="fa-solid fa-pen"></i></button></a>
-                                                <a href="" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
+                                                    <i class="fa-solid fa-pen"></i></button></a> -->
+                                                <a href="/eliminacionReserva/{{r.id}}" class=" btn btn-sm btn-danger btnEliminacion"><i class='fa fa-trash'></i></a>
                                             </td>
                                         </tr>
+                                        {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
