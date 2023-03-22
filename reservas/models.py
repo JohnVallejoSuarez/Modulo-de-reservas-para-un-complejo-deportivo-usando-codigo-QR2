@@ -47,3 +47,6 @@ class Reserva(models.Model):
     horario = models.ManyToManyField(Horario)
     estado = models.BooleanField(default=True)
     estado2 = models.BooleanField(default=False)
+
+    def get_sorted_horarios(self):
+        return self.horario.order_by('HorarioInicio')

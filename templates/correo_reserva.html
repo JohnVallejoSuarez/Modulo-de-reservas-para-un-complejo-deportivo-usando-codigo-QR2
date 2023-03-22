@@ -230,7 +230,7 @@
 																style="padding-bottom:10px;padding-top:10px;text-align:center;width:100%;">
 																<h2
 																	style="margin: 0; color: #201f42; direction: ltr; font-family: 'Noto Serif', Georgia, serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
-																	<span class="tinyMce-placeholder">Hola {{nombre}}
+																	<span class="tinyMce-placeholder">Hola {{nombre|upper}}
 																	</span></h2>
 															</td>
 														</tr>
@@ -244,8 +244,8 @@
 																style="padding-left:10px;padding-right:10px;">
 																<div
 																	style="color:#201f42;direction:ltr;font-family:Inter, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:180%;text-align:center;mso-line-height-alt:28.8px;">
-																	<p style="margin: 0;">Tu reserva de la cancha de
-																		{{instalacion}} se ha generado satisfactoriamente para
+																	<p style="margin: 0;">Tu reserva de
+																		<b><i>{{instalacion}}</i></b> se ha generado satisfactoriamente para
 																		la fecha {{fecha_reserva}} en el/los horario/s de {{horarios}}, ademas adjuntamos el codigo QR
 																		de tu reserva. </p>
 																</div>

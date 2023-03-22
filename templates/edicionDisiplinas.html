@@ -26,16 +26,16 @@
                                 <div class="col-12">
                                     <div>
                                         <form action="/edicionDisiplinas/" method="post" class="row" > {% csrf_token %}
-                                            <div class="form-group col-md-6">
-                                                <label for="">ID</label>
-                                                <input type="text" name="disiplinaid" id="disiplinaid" class="form-control" value="{{edicionDisiplina.id}}" readonly required>
+                                            <div class="form-group ">
+                                                <label for="" class="d-none">ID</label>
+                                                <input type="text" name="disiplinaid" id="disiplinaid" class="form-control d-none" value="{{edicionDisiplina.id}}" readonly required>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="">Nombre</label>
                                                 <input type="text" name="disiplinanombre" id="disiplinanombre" class="form-control" value="{{edicionDisiplina.nombre}}" required>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 mt-4">
                                                 <button type="submit" class="btn btn-primary separacion" data-bs-toggle=""
                                                         data-bs-target="" >
                                                     Actulizar

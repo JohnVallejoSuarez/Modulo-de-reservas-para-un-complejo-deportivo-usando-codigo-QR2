@@ -44,8 +44,7 @@ class LoginFormView(LoginView):
         context['title']="Iniciar Secion"
         return context
     
-# def adminInicio(request):
-#     return render(request, 'adminInicio.html')
+
 
 class adminInicioView(TemplateView):
     template_name = 'adminInicio.html'
@@ -176,8 +175,13 @@ def verInstalacion(request,id):
     listaDisiplinas = Disiplina.objects.all()
     listaReservas=Reserva.objects.all()
     listaHorarios = Horario.objects.all()
-   
-    data = {'verInstalacion':verinstalacion,'disiplinas': listaDisiplinas,'reservas':listaReservas,'horarios':listaHorarios,}
+    data = {
+        'verInstalacion':verinstalacion,
+        'disiplinas': listaDisiplinas,
+        'reservas':listaReservas,
+        'horarios':listaHorarios,
+        
+    }
     
     return render(request, 'verInstalaciones.html',  data)
 
@@ -233,93 +237,10 @@ def eliminacionInstalacion(request,id):
     return redirect('/adminInstalaciones') 
 
 def adminReservas(request):
-    listaReserva = Reserva.objects.all()
-    # horariosReservados=listaReserva.horario.all()
-    busqueda= request.GET.get("buscarreserva")
-
-    
     reservas = Reserva.objects.select_related('id_instalacion').prefetch_related('horario').all()
-    if busqueda:
-        reservas=Reserva.objects.filter(
-            Q(cedula__icontains=busqueda) |
-            Q(nombres__icontains=busqueda) |
-            Q(apellidos__icontains=busqueda)|
-            Q(fecha_reservacion__icontains=busqueda) |
-            Q(fecha_reservada__icontains=busqueda)|
-            Q(id_instalacion__nombre__icontains=busqueda)  #Para buscar en un foraneo
-
-        ).distinct()
     data = {'reservas':reservas}
     return render(request, 'adminReservas.html', data)
 
-def registroReservas(request,id):
-    nombre = request.POST['nombre']
-    apellido = request.POST['apellido']
-    ci = request.POST['ci']
-    telefono = request.POST['telefono']
-    correo = request.POST['correo']
-
-    instalacion=Instalacion()
-    instalacion.id = int(id)
-    instalacion_reserva=instalacion
-
-    pago = request.POST['pago']
-    fecha_reserva = request.POST['fecha_reserva']
-    horario = request.POST.getlist('horario')
-    reserva = Reserva.objects.create(
-        nombres=nombre,
-        apellidos=apellido,
-        cedula=ci,
-        telefono=telefono,
-        email=correo,
-        id_instalacion=instalacion_reserva,
-        fecha_reservada=fecha_reserva,
-        pago=pago,  
-    )
-
-    reserva.horario.set(horario)
-
-     # Nombre y apellidos 
-    nombre = f"{reserva.nombres} {reserva.apellidos}"
-    # Actualizar el código QR con el ID de la reserva
-    codigo_qr_data = f"{reserva.id},{fecha_reserva},{', '.join(str(h) for h in reserva.horario.all())},{nombre},{correo}"
-    qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(codigo_qr_data)
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill_color="black", back_color="white")
-    qr_image_buffer = BytesIO()
-    qr_image.save(qr_image_buffer, format="PNG")
-    qr_image_data = qr_image_buffer.getvalue()
-
-    # Guardar el código QR actualizado en la reserva y guardar la reserva en la base de datos
-    reserva.codigo_qr = codigo_qr_data
-    reserva.save()
-
-    # Obtener el objeto Instalacion correspondiente a la reserva
-    instalacion_reserva = reserva.id_instalacion
-
-    # Crear una cadena de texto con la información adicional
-
-    horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
-    instalacion = instalacion_reserva.nombre
-    fecha_reserva = reserva.fecha_reservada
-    data = {
-        'horarios':horarios,
-        'nombre':nombre,
-        'instalacion':instalacion,
-        'fecha_reserva':fecha_reserva,
-    }
-    email_body = render_to_string('correo_reserva.html', data)
-
-    # Enviar el correo electrónico
-    send_email(
-        email_from='correo',
-        email_to=correo,
-        email_subject=f'Código QR para la reserva en la instalación {instalacion}',
-        email_body=email_body,
-        qr_image_data=qr_image_data
-    )
-    return redirect('/adminReservas')
 
 def send_email(email_from, email_to, email_subject, email_body, qr_image_data):
     # Configurar el servidor SMTP
@@ -401,8 +322,13 @@ def registroReservasU(request, id):
     instalacion_reserva = reserva.id_instalacion
 
     # Crear una cadena de texto con la información adicional
-
-    horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
+    horarios_list = []
+    for horario in reserva.horario.all():
+        inicio = horario.HorarioInicio.strftime('%I:%M %p')  # %I para el formato de 12 horas, %p para AM/PM
+        fin = horario.HorarioFin.strftime('%I:%M %p')
+        horarios_list.append(f'{inicio} - {fin}')
+    horarios = horarios_str = ', '.join(horarios_list)
+    # horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
     instalacion = instalacion_reserva.nombre
     fecha_reserva = reserva.fecha_reservada
     data = {
@@ -422,7 +348,7 @@ def registroReservasU(request, id):
         qr_image_data=qr_image_data
     )
 
-    return redirect('/instalaciones')
+    return redirect('/adminReservas')
 
 #---Pago Hecho desde el Cliente
 def pagoonline(request,id):
@@ -528,10 +454,15 @@ def regpago(request):
     instalacion_reserva = reserva.id_instalacion
 
     # Crear una cadena de texto con la información adicional
-
-    horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
+    horarios_list = []
+    for horario in reserva.horario.all():
+        inicio = horario.HorarioInicio.strftime('%I:%M %p')  # %I para el formato de 12 horas, %p para AM/PM
+        fin = horario.HorarioFin.strftime('%I:%M %p')
+        horarios_list.append(f'{inicio} - {fin}')
+    horarios = horarios_str = ' '.join(horarios_list)
+    # horarios = f"{', '.join(str(h) for h in reserva.horario.all())}"
     instalacion = instalacion_reserva.nombre
-    fecha_reserva = reserva.fecha_reservada
+    fecha_reserva = reserva.fecha_reservada 
     data = {
         'horarios':horarios,
         'nombre':nombre,
@@ -689,7 +620,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import Reserva
-
+from datetime import datetime
 
 from django.core.serializers import serialize
 from django.http import JsonResponse
@@ -700,9 +631,24 @@ def actualizar_estado(request):
         valor = qr_value.split(':')[1].strip()
         reserva = Reserva.objects.filter(codigo_qr=valor).first()
         if reserva:
-            reserva.estado2 = True
-            reserva.save()
-            reserva_json = serialize('json', [reserva])
-            return JsonResponse({'success': True, 'reserva': reserva_json})
+            if reserva.estado2:
+                return JsonResponse({'success': False, 'error_message': 'Esta reserva ya ha sido procesada.'})
+            else:
+                reserva.estado2 = True
+                reserva.save()
+                reserva_json = serialize('json', [reserva])
+                # Construir cadena de texto con los horarios de la reserva
+                horarios_list = []
+                for horario in reserva.horario.all():
+                    inicio = horario.HorarioInicio.strftime('%I:%M %p')  # %I para el formato de 12 horas, %p para AM/PM
+                    fin = horario.HorarioFin.strftime('%I:%M %p')
+                    horarios_list.append(f'{inicio} - {fin}')
+
+                horarios_str = '<br>'.join(horarios_list)
+
+                # Accede al nombre de la instalación a través de la instancia de la reserva
+                instalacion_nombre = reserva.id_instalacion.nombre
+
+                return JsonResponse({'success': True, 'reserva': reserva_json, 'instalacion': instalacion_nombre, 'horarios': horarios_str})
         else:
             return JsonResponse({'success': False, 'error_message': 'No se encontró una reserva con este código QR.'})

@@ -21,9 +21,20 @@
                         <video id="preview"  style="width: 300px;"></video>
                     </div>
                 </div>
-                <div class="card-content text-center">
+                <div class="card-content text-center mt-3">
                     <h3>Datos de la reserva</h3>
-                    <div id="resultado"></div>
+                    
+
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="resultado" class="table-responsive">
+                            </div>
+                            <div id="resultado2" class="text-center"></div>
+                        </div>
+                    </div>
                 </div>
         </div>
 
@@ -41,12 +52,15 @@
 
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
     let result = document.getElementById('resultado');
+    let result2 = document.getElementById('resultado2');
     let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
     
     scanner.addListener('scan', function (content) {
         console.log(content);
         // ...
+        result.innerHTML = "";
+        result2.innerHTML = "";
 
         fetch('/actualizar_estado/', {
             method: 'POST',
@@ -60,18 +74,51 @@
         .then(data => {
             if (data.success) {
                 console.log('Se actualizó el estado de la reserva.');
-
-                // Mostramos los datos de la reserva actualizada en el HTML
                 let reserva = JSON.parse(data.reserva)[0].fields;
-                let info = `Nombres: ${reserva.nombres}<br>
-                            Apellidos: ${reserva.apellidos}<br>
-                            Cédula: ${reserva.cedula}<br>
-                            Email: ${reserva.email}<br>
-                            Teléfono: ${reserva.telefono}<br>
-                            Fecha de reservación: ${reserva.fecha_reservacion}<br>
-                            Fecha reservada: ${reserva.fecha_reservada}<br>`;
-                result.innerHTML = info;
+                let instalacion = data.instalacion;
+                let horarios = data.horarios; // Aquí se almacenan los horarios como una cadena de caracteres
+                let info = `<table class="table ">
+                                <tr>
+                                    <th>Instalación:</th>
+                                    <td>${instalacion}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nombres:</th>
+                                    <td>${reserva.nombres} ${reserva.apellidos}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>Cédula:</th>
+                                    <td>${reserva.cedula}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>${reserva.email}</td>
+                                </tr>
+                                <tr>
+                                    <th>Teléfono:</th>
+                                    <td>${reserva.telefono}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha de reservación:</th>
+                                    <td>${reserva.fecha_reservacion}</td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha reservada:</th>
+                                    <td>${reserva.fecha_reservada}</td>
+                                </tr>
+                                <tr>
+                                    <th>Horario:</th>
+                                    <td>${horarios}</td>
+                                </tr>
+                                </table>`;
+                    result.innerHTML = info;
+
             } else {
+                let mensaje = data.error_message;
+
+                let info2 = `<h4 class="text-danger"><i>${mensaje}</i></h4>`;
+                result2.innerHTML = info2;
                 console.error(data.error_message);
             }
         })

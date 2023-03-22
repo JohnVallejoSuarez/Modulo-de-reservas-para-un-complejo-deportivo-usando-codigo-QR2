@@ -18,6 +18,7 @@ from django.urls import path,re_path
 from reservas import views
 from reservas.views import LoginFormView,LogoutView,adminInicioView
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 from django.conf.urls.static import static
 urlpatterns = [
@@ -26,37 +27,37 @@ urlpatterns = [
     path('', LoginFormView.as_view(),name="login"),
     path('logout/', LogoutView.as_view(),name="logout"),
 
-    #path('adminInicio/', views.adminInicio, name='adminInicio'),
-    path('adminInicio/',adminInicioView.as_view(), name='adminInicio'),
+    path('adminInicio/',login_required(adminInicioView.as_view()), name='adminInicio'),
 
     path('instalaciones/', views.instalaciones, name='instalaciones'),
     path('detalleInstalacion/<id>', views.detalleInstalacion, name='detalleInstalacion'),
-    path('registroReservasU/<id>', views.registroReservasU, name='registroReservasU'),
+    
 
-    path('adminDisiplinas/', views.adminDisiplinas, name='adminDisiplinas'),
-    path('registroDisiplina/', views.registroDisiplina, name='registroDisiplina'), 
-    path('edicionDisiplinas/', views.edicionDisiplinas, name='edicionDisiplinas'),
-    path('editaDisiplina/<id>', views.editaDisiplina, name='editaDisiplina'),
-    path('eliminacionDisiplina/<id>', views.eliminacionDisiplina, name='eliminacionDisiplina'),
+    path('adminDisiplinas/', login_required(views.adminDisiplinas), name='adminDisiplinas'),
+    path('registroDisiplina/', login_required(views.registroDisiplina), name='registroDisiplina'), 
+    path('edicionDisiplinas/', login_required(views.edicionDisiplinas), name='edicionDisiplinas'),
+    path('editaDisiplina/<id>', login_required(views.editaDisiplina), name='editaDisiplina'),
+    path('eliminacionDisiplina/<id>', login_required(views.eliminacionDisiplina), name='eliminacionDisiplina'),
      
 
-    path('adminInstalaciones/', views.adminInstalaciones, name='adminInstalaciones'),
-    path('registroInstalacion/', views.registroInstalacion, name='registroInstalacion'), 
+    path('adminInstalaciones/', login_required(views.adminInstalaciones), name='adminInstalaciones'),
+    path('registroInstalacion/', login_required(views.registroInstalacion), name='registroInstalacion'),
+     
     
     path('verInstalacion/<id>', views.verInstalacion, name='verInstalacion'),
-    path('editaInstalacion/<id>', views.editaInstalacion, name='editaInstalacion'),
-    path('eliminacionInstalacion/<id>', views.eliminacionInstalacion, name='eliminacionInstalacion'),
+    path('editaInstalacion/<id>', login_required(views.editaInstalacion), name='editaInstalacion'),
+    path('eliminacionInstalacion/<id>', login_required(views.eliminacionInstalacion), name='eliminacionInstalacion'),
    
     path('adminReservas/', views.adminReservas, name='adminReservas'),
-    #path('registroReservas/<id>', views.registroReservas, name='registroReservas'), 
+    path('registroReservasU/<id>', login_required(views.registroReservasU), name='registroReservasU'), 
     path('eliminacionReserva/<id>', views.eliminacionReserva, name='eliminacionReserva'),
 
 
-    path('adminHorarios/', views.adminHorarios, name='adminHorarios'),
-    path('registroHorario/', views.registroHorario, name='registroHorario'), 
+    path('adminHorarios/', login_required(views.adminHorarios), name='adminHorarios'),
+    path('registroHorario/', login_required(views.registroHorario), name='registroHorario'), 
     # path('edicionDisiplinas/', views.edicionDisiplinas, name='edicionDisiplinas'),
     # path('editaDisiplina/<id>', views.editaDisiplina, name='editaDisiplina'),
-    path('eliminacionHorario/<id>', views.eliminacionHorario, name='eliminacionHorario'),
+    path('eliminacionHorario/<id>', login_required(views.eliminacionHorario), name='eliminacionHorario'),
 
     path('pagoonline/<id>', views.pagoonline,name='pagoOnline'),
     path('regpago/', views.regpago,name='regpago'),

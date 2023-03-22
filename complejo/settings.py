@@ -144,6 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/'
 # si se tiene exito al loguearse
-LOGIN_REDIRECT_URL='/adminInstalaciones'
+LOGIN_REDIRECT_URL='/adminInicio'
 # si se tiene exito al salir de  la seccion
 LOGOUT_REDIRECT_URL='/'

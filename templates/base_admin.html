@@ -14,6 +14,11 @@
     <script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
     <script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+
+    <!-- Tabla -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
     <title>{% block title %}{% endblock %}</title>
     
 </head>
@@ -25,31 +30,32 @@
         <!-- Sidebar -->
         <div id="menu-iz">
             <div class="sidebar-heading text-center text-white fs-4 fw-bold ">
-                COMPLEJO
+                <h3>COMPLEJO XYZ</h3>
             </div>
             <div class="list-group ">
 
                 <a href="{% url 'adminInicio' %}" class="list-group-item   second-text fw-bold color-1">
-                    <i class="fa-solid fa-calendar-day me-2"></i>Inicio
+                    <i class="fa-solid fa-chart-line me-2"></i>Inicio
                 </a>
                 
 
                 <a href="{% url 'adminReservas' %}" class="list-group-item   second-text fw-bold color-1">
-                    <i class="fa-solid fa-calendar-day me-2"></i>Reservas
+                    <i class="fa-solid fa-calendar-days me-2"></i>Reservas
+                    
                 </a>
 
 
                 <a href="{% url 'adminInstalaciones' %}" class="list-group-item  second-text fw-bold color-1">
-                    <i class="fas fa-gift me-2"></i>Instalaciones
+                    <i class="fa-solid fa-building-columns me-2"></i>Instalaciones
                 </a>
 
 
                 <a href="{% url 'adminHorarios' %}" class="list-group-item   second-text fw-bold color-1">
-                    <i class="fa-solid fa-users me-2"></i>Horarios
+                    <i class="fa-solid fa-clock me-2"></i>Horarios
                 </a>
 
                 <a href="{% url 'scaner' %}" class="list-group-item   second-text fw-bold color-1">
-                    <i class="fa-solid fa-users me-2"></i>Scaner
+                    <i class="fa-solid fa-qrcode me-2"></i>Scaner
                 </a>
 
                 <a href="{% url 'logout' %}" class="list-group-item  second-text fw-bold color-1"><i
@@ -75,8 +81,7 @@
                         <i class="fas fa-user me-2"></i>{{ request.user.first_name }}
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        
                         <li><a href="/logout" class="dropdown-item">Logout</a></li>
                     </ul>
                 </div>
@@ -113,9 +118,18 @@
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
     crossorigin="anonymous"></script>
 
+    {% block script %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
+
+    <script src="{% static 'javascript/tabla.js' %}"></script> 
+    {% endblock %}
+
+    {% block funciones %}
     
-    {% block script %}{% endblock %}
+    {% endblock %}
    
 
 </body>
